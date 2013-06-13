@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div id="footer" xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:message code="action_home" var="actionHome" />
+	<spring:message code="action_en_GB" var="actionEnGb" />
+	<spring:message code="action_ru_RU" var="actionRuRu" />
+	
+	<spring:url value="" var="homeUrl" /><a></a>
+	<spring:url value="" var="currentUrl" /><a></a>
+	
+	<h3>
+	<a href="${homeUrl}">${actionHome}</a>|
+	<a href="${currentUrl}?lang=en_GB">${actionEnGb}</a>|
+	<a href="${currentUrl}?lang=ru_RU">${actionRuRu}</a>
+	</h3>
+</div>

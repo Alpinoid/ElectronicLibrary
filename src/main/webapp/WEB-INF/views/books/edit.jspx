@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core" 
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_book_new" var="labelBookNew"/>
+    <spring:message code="label_book_update" var="labelBookUpdate"/>
+    <spring:message code="label_book_id" var="labelBookId" />
+    <spring:message code="label_book_name" var="labelBookName"/>
+    <spring:message code="label_book_author" var="labelBookAuthor"/>
+    <spring:message code="label_book_publisher" var="labelBookPublisher"/>
+    <spring:message code="label_book_description" var="labelBookDescription"/>
+    <spring:message code="label_book_image" var="labelBookImage"/>
+    <spring:message code="label_book_file" var="labelBookFile"/>
+    <spring:message code="label_book_tag" var="labelBookTag"/>
+    <spring:message code="label_book_publish_date" var="labelPublishDate"/>
+    <spring:message code="action_save" var="actionSave"/>
+    <spring:message code="action_reset" var="actionReset"/>
+    
+    <spring:eval expression="book.idBooks == null ? labelBookNew:labelBookUpdate" var="formTitle"/>
+    
+    <spring:url value="/books/cover" var="bookCoverUrl" />
+    <spring:url value="/books/download" var="bookFileUrl" />
+
+    <h1>${formTitle}</h1>
+
+    <div id="bookUpdate">
+	    <form:form modelAttribute="book" id="bookUpdateForm" method="post" enctype="multipart/form-data">
+	
+ 	        <c:if test="${not empty message}">
+ 	            <div id="message" class="${message.type}">${message.message}</div>
+ 	        </c:if>
+	        
+			<form:label path="idBooks">
+		   		${labelBookId}:
+		    </form:label>
+			<form:input path="idBooks" readonly="true"/>
+			<p/>			
+
+			<form:label path="booksName">
+				${labelBookName}*:
+		    </form:label>
+		    <form:input path="booksName" />
+			<div>
+				<form:errors path="booksName" cssClass="error" />
+			</div>
+			<p/>
+			
+			<form:label path="authorsOfBooks">
+		    	${labelBookAuthor}*: 
+		    </form:label>
+	        <form:select path="authorsOfBooks">
+	       		<form:options items="${listAuthors}" itemValue="idAuthors" itemLabel="authorsName"  />  
+	        </form:select>
+			<div>
+				<form:errors path="authorsOfBooks" cssClass="error" />
+			</div>
+			<p/>
+			
+			<form:label path="booksPublisher">
+		    	${labelBookPublisher}*: 
+		    </form:label>
+            <form:select path="booksPublisher.idPublishers">
+            	<form:options items="${listPublishers}" itemValue="idPublishers" itemLabel="publishersName" />
+            </form:select>
+			<div>
+				<form:errors path="booksPublisher" cssClass="error" />
+			</div>
+			<p/>
+			
+			<form:label path="booksFile">
+	        	${labelBookFile}:
+	        </form:label>
+	        <c:if test="${not empty book.idBooks}" >
+            	<a href="${bookFileUrl}/${book.idBooks}">${book.booksFile.filesName}</a>
+            	<br/>
+ 	        </c:if>
+	        <input name="file" type="file" />
+	        <div>
+				<form:errors path="booksFile" cssClass="error" />
+			</div>
+	        <p/>
+			
+			<form:label path="booksDescription">
+            	${labelBookDescription}:
+	        </form:label>
+	        <form:textarea cols="60" rows="8" path="booksDescription" id="booksDescription"/>
+	        <div>
+	            <form:errors path="booksDescription" cssClass="error" />
+	        </div>        
+	        <p/>
+	        
+	        <form:label path="booksImage">
+	        	${labelBookImage}:
+	        </form:label>
+	        <c:if test="${not empty book.idBooks}" >
+            	<img src="${bookCoverUrl}/${book.idBooks}"></img>
+            	<br/>
+ 	        </c:if>
+ 	        <form:label path="booksImage"></form:label>
+	        <input name="image" type="file" />
+	        <div>
+				<form:errors path="booksImage" cssClass="error" />
+			</div>
+	        <p/>
+	        
+ 			<form:label path="tagsOfBooks">
+		    	${labelBookTag}: 
+		    </form:label>
+	        <form:select path="tagsOfBooks">
+	       		<form:options items="${listTags}" itemValue="idTags" itemLabel="tagsName"  />  
+	        </form:select>
+			<div>
+				<form:errors path="tagsOfBooks" cssClass="error" />
+			</div>
+			<p/>
+					        
+ 			<form:label path="booksPublishDate">
+		    	${labelPublishDate}*: 
+		    </form:label>
+       		<form:input path="booksPublishDate" id="booksPublishDate" />  
+			<div>
+				<form:errors path="booksPublishDate" cssClass="error" />
+			</div>
+			<p/>
+	
+   	        <button type="submit">${actionSave}</button>
+	        <button type="reset">${actionReset}</button> 
+	        
+	    </form:form>   
+    </div>
+
+</div>

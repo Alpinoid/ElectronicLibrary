@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:joda="http://www.joda.org/joda/time/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:form="http://www.springframeworks.org/tags/form">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:message code="label_book_info" var="labelBookInfo" />
+	<spring:message code="label_book_id" var="labelBookId" />
+	<spring:message code="label_book_name" var="labelBookName" />
+	<spring:message code="label_book_author" var="labelBookAuthors" />
+	<spring:message code="label_book_publisher" var="labelBookPublisher"/>
+	<spring:message code="label_book_description" var="labelBookDescription"/>
+	<spring:message code="label_book_download" var="labelBookDownload"/>
+	<spring:message code="label_book_tag" var="labelBookTags"/>
+	<spring:message code="label_book_publish_date" var="labelPublishDate"/>
+	<spring:message code="action_edit" var="actionEdit" />
+	<spring:message code="action_delete" var="actionDelete" />
+	<spring:message code="date_format" var="dateFormat" />
+	
+	<spring:url value="/books" var="editBookUrl" />
+	<spring:url value="/books/cover" var="bookCoverUrl" />
+	<spring:url value="/books/download" var="bookFileUrl" />
+	<spring:url value="/authors" var="viewAuthorUrl" />
+	<spring:url value="/tags" var="viewTagUrl" />
+	
+	<h1>${labelBookInfo}</h1>
+	
+	<div id="bookInfo">
+	
+		<c:if test="${not empty message}">
+			<div id="message" class="${message.type}">${message.message}</div>
+		</c:if>
+		
+		<table>
+			<tr>
+				<td width="150px" >
+					<img src="${bookCoverUrl}/${book.idBooks}" width="150px" height="200px" alt="${book.booksName}"></img>
+				</td>
+				<td>
+					<table>
+						<tr>
+							<td width="30%">${labelBookId}:</td>
+							<td>${book.idBooks}</td>
+						</tr>
+						<tr>
+							<td>${labelBookName}:</td>
+							<td>${book.booksName}</td>
+						</tr>
+						<tr>
+							<td>${labelBookAuthors}:</td>
+							<td>
+								<c:if test="${not empty listAuthors}">
+									<c:forEach items="${listAuthors}" var="author">
+						            		<a href="${viewAuthorUrl}/${author.idAuthors}">${author.authorsName}</a>
+											<br/>
+									</c:forEach>
+								</c:if>				
+							</td>
+						</tr>			
+						<tr>
+							<td>${labelBookPublisher}:</td>
+							<td>${book.booksPublisher.publishersName}</td>
+						</tr>
+						<tr>
+			                <td>${labelBookDescription}:</td>
+			                <td>${book.booksDescription}</td>
+			            </tr>
+			            <tr>
+							<td>${labelBookTags}:</td>
+							<td>
+								<c:if test="${not empty listTags}">
+									<c:forEach items="${listTags}" var="tag">
+						            	<a href="${viewTagUrl}/${tag.idTags}">${tag.tagsName}</a>&#0160; 
+									</c:forEach>
+								</c:if>				
+							</td>
+						</tr>
+						<tr>
+			                <td>${labelPublishDate}:</td>
+			                <td><joda:format value="${book.booksPublishDate}" pattern="${dateFormat}"/></td>
+			            </tr>
+			            <tr>
+			                <td>${labelBookDownload}:</td>
+			                <td><a href="${bookFileUrl}/${book.idBooks}">${book.booksFile.filesName}</a></td>
+			            </tr>
+		            </table>
+	            </td>
+	        </tr>	
+		</table>
+		
+		<h3>
+			<a href="${editBookUrl}/${book.idBooks}?form">${actionEdit}</a> | 
+			<a href="${editBookUrl}/${book.idBooks}?delete">${actionDelete}</a>
+		</h3>
+		
+	</div>
+
+</div>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core" 
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_publisher_new" var="labelPublisherNew"/>
+    <spring:message code="label_publisher_update" var="labelPublisherUpdate"/>
+    <spring:message code="label_publisher_id" var="labelPublisherId" />
+    <spring:message code="label_publisher_name" var="labelPublisherName"/>
+    <spring:message code="action_save" var="actionSave"/>
+    <spring:message code="action_reset" var="actionReset"/>
+    
+    <spring:eval expression="publisher.idPublishers == null ? labelPublisherNew:labelPublisherUpdate" var="formTitle"/>
+
+    <h1>${formTitle}</h1>
+
+    <div id="publisherUpdate">
+	    <form:form modelAttribute="publisher" id="publisherUpdateForm" method="post">
+	
+	        <c:if test="${not empty message}">
+	            <div id="message" class="${message.type}">${message.message}</div>
+	        </c:if>
+	        
+	        <form:label path="idPublishers">
+	            ${labelPublisherId}:
+	        </form:label>
+			<form:input path="idPublishers" readonly="true" />
+	        <p/>
+	
+	        <form:label path="publishersName">
+	            ${labelPublisherName}*: 
+	        </form:label>
+	        <form:input path="publishersName" />
+	        
+	        <div>
+	        	<form:errors path="publishersName" cssClass="error" />
+	        </div>
+	        <p/>      
+	
+   	        <button type="submit">${actionSave}</button>
+	        <button type="reset">${actionReset}</button> 
+	        
+	    </form:form>   
+    </div>
+
+</div>

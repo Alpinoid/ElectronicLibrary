@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core" 
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_author_new" var="labelAuthorNew"/>
+    <spring:message code="label_author_update" var="labelAuthorUpdate"/>
+    <spring:message code="label_author_id" var="labelAuthorId" />
+    <spring:message code="label_author_name" var="labelAuthorName"/>
+    <spring:message code="action_save" var="actionSave"/>
+    <spring:message code="action_reset" var="actionReset"/>
+    
+    <spring:eval expression="author.idAuthors == null ? labelAuthorNew:labelAuthorUpdate" var="formTitle"/>
+
+    <h1>${formTitle}</h1>
+
+    <div id="authorUpdate">
+	    <form:form modelAttribute="author" id="authorUpdateForm" method="post">
+	
+ 	        <c:if test="${not empty message}">
+ 	            <div id="message" class="${message.type}">${message.message}</div>
+ 	        </c:if>
+	        
+			<form:label path="idAuthors">
+		   		${labelAuthorId}:
+		    </form:label>
+			<form:input path="idAuthors" readonly="true"/>			
+			<p/>
+			
+			<form:label path="authorsName">
+		    	${labelAuthorName}*: 
+		    </form:label>
+		    <form:input path="authorsName" />
+		    
+			<div>
+				<form:errors path="authorsName" cssClass="error" />
+			</div>
+			<p/>    
+	
+   	        <button type="submit">${actionSave}</button>
+	        <button type="reset">${actionReset}</button> 
+	        
+	    </form:form>   
+    </div>
+
+</div>

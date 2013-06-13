@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" 
+     xmlns:c="http://java.sun.com/jsp/jstl/core" 
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form">
+     
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_tag_new" var="labelTagNew"/>
+    <spring:message code="label_tag_update" var="labelTagUpdate"/>
+    <spring:message code="label_tag_id" var="labelTagId" />
+    <spring:message code="label_tag_name" var="labelTagName"/>
+    <spring:message code="action_save" var="actionSave"/>
+    <spring:message code="action_reset" var="actionReset"/>
+    
+    <spring:eval expression="tag.idTags == null ? labelTagNew:labelTagUpdate" var="formTitle"/>
+
+    <h1>${formTitle}</h1>
+
+    <div id="tagUpdate">
+	    <form:form modelAttribute="tag" id="tagUpdateForm" method="post">
+	
+ 	        <c:if test="${not empty message}">
+ 	            <div id="message" class="${message.type}">${message.message}</div>
+ 	        </c:if>
+	        
+			<form:label path="idTags">
+		   		${labelTagId}:
+		    </form:label>
+			<form:input path="idTags" readonly="true"/>			
+			<p/>
+			
+			<form:label path="tagsName">
+		    	${labelTagName}*: 
+		    </form:label>
+		    <form:input path="tagsName" />
+		    
+			<div>
+				<form:errors path="tagsName" cssClass="error" />
+			</div>
+			<p/>    
+	
+   	        <button type="submit">${actionSave}</button>
+	        <button type="reset">${actionReset}</button> 
+	        
+	    </form:form>   
+    </div>
+
+</div>

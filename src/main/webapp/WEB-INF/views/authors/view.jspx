@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:form="http://www.springframeworks.org/tags/form">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:message code="label_author_info" var="labelAuthorInfo" />
+	<spring:message code="label_author_id" var="labelAuthorId" />
+	<spring:message code="label_author_name" var="labelAuthorName" />
+	<spring:message code="label_author_books" var="labelАuthorBooks" />
+	<spring:message code="action_edit" var="actionEdit" />
+	<spring:message code="action_delete" var="actionDelete" />
+	
+	<spring:url value="/authors" var="editAuthorUrl" />
+	<spring:url value="/books" var="viewBookUrl" />
+	
+	<h1>${labelAuthorInfo}</h1>
+	
+	<div id="authorInfo">
+	
+		<c:if test="${not empty message}">
+			<div id="message" class="${message.type}">${message.message}</div>
+		</c:if>
+		
+		<table>
+			<tr>
+				<td>${labelAuthorId}:</td>
+				<td>${author.idAuthors}</td>
+			</tr>
+			<tr>
+				<td>${labelAuthorName}:</td>
+				<td>${author.authorsName}</td>
+			</tr>
+			<tr>
+				<td>${labelАuthorBooks}:</td>
+				<td>
+					<c:if test="${not empty listBooks}">
+						<table>
+							<c:forEach items="${listBooks}" var="book">
+					        	<tr>
+						           	<td><a href="${viewBookUrl}/${book.idBooks}">${book.booksName}</a></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:if>				
+				</td>
+			</tr>
+		</table>
+		
+		<h3>
+		<a href="${editAuthorUrl}/${author.idAuthors}?form">${actionEdit}</a> | 
+		<a href="${editAuthorUrl}/${author.idAuthors}?delete">${actionDelete}</a>
+		</h3>
+		
+	</div>
+
+</div>

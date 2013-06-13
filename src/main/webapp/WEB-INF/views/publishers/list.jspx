@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:message code="label_publisher_list" var="labelPublisherList" />
+	<spring:message code="label_publisher_name" var="labelPublisherName" />
+	<spring:message code="action_add" var="actionAdd" />
+	
+	<spring:url value="/publishers" var="viewPublisherUrl" />
+	<spring:url value="/publishers?form" var="addPublisherUrl" />
+
+	<H1>${labelPublisherList}</H1>
+	
+	<c:if test="${not empty publishers}">
+		<TABLE>
+			<THEAD>
+				<TR>
+					<TH>${labelPublisherName}</TH>
+				</TR>
+			</THEAD>
+			<TBODY>
+				<c:forEach items="${publishers}" var="publisher">
+		        	<TR>
+		            	<td><a href="${viewPublisherUrl}/${publisher.idPublishers}">${publisher.publishersName}</a></td>
+					</TR>
+				</c:forEach>
+			</TBODY>	
+		</TABLE>
+	</c:if>
+	
+	<a href="${addPublisherUrl}"><h3>${actionAdd}</h3></a>
+
+</div>

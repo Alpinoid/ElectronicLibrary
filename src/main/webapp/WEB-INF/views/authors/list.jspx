@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:spring="http://www.springframework.org/tags">
+	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:message code="label_author_list" var="labelAuthorList" />
+	<spring:message code="label_author_name" var="labelAuthorName" />
+	<spring:message code="action_add" var="actionAdd" />
+	
+	<spring:url value="/authors" var="viewAuthorUrl" />
+	<spring:url value="/authors?form" var="addAuthorUrl" />
+
+	<h1>${labelAuthorList}</h1>
+	
+	<c:if test="${not empty authors}">
+		<TABLE>
+			<THEAD>
+				<TR>
+					<TH>${labelAuthorName}</TH>
+				</TR>
+			</THEAD>
+			<TBODY>
+				<c:forEach items="${authors}" var="author">
+		        	<TR>
+		            	<td><a href="${viewAuthorUrl}/${author.idAuthors}">${author.authorsName}</a></td>
+					</TR>
+				</c:forEach>
+			</TBODY>	
+		</TABLE>
+	</c:if>
+	
+	<a href="${addAuthorUrl}"><h3>${actionAdd}</h3></a>
+
+</div>
