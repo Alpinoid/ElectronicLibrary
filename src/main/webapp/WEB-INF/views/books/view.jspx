@@ -3,7 +3,8 @@
 	 xmlns:c="http://java.sun.com/jsp/jstl/core"
 	 xmlns:joda="http://www.joda.org/joda/time/tags"
 	 xmlns:spring="http://www.springframework.org/tags"
-	 xmlns:form="http://www.springframeworks.org/tags/form">
+	 xmlns:form="http://www.springframeworks.org/tags/form"
+	 xmlns:sec="http://www.springframework.org/security/tags">
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
@@ -82,19 +83,23 @@
 			                <td>${labelPublishDate}:</td>
 			                <td><joda:format value="${book.booksPublishDate}" pattern="${dateFormat}"/></td>
 			            </tr>
-			            <tr>
-			                <td>${labelBookDownload}:</td>
-			                <td><a href="${bookFileUrl}/${book.idBooks}">${book.booksFile.filesName}</a></td>
-			            </tr>
+			            <sec:authorize access="hasRole('ROLE_USER')">
+				            <tr>
+				                <td>${labelBookDownload}:</td>
+				                <td><a href="${bookFileUrl}/${book.idBooks}">${book.booksFile.filesName}</a></td>
+				            </tr>
+			            </sec:authorize>
 		            </table>
 	            </td>
 	        </tr>	
 		</table>
 		
-		<h3>
-			<a href="${editBookUrl}/${book.idBooks}?form">${actionEdit}</a> | 
-			<a href="${editBookUrl}/${book.idBooks}?delete">${actionDelete}</a>
-		</h3>
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+			<h3>
+				<a href="${editBookUrl}/${book.idBooks}?form">${actionEdit}</a> | 
+				<a href="${editBookUrl}/${book.idBooks}?delete">${actionDelete}</a>
+			</h3>
+		</sec:authorize>
 		
 	</div>
 

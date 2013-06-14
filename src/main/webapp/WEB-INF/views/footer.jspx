@@ -8,7 +8,7 @@
 	<spring:message code="action_en_GB" var="actionEnGb" />
 	<spring:message code="action_ru_RU" var="actionRuRu" />
 	
-	<spring:url value="" var="homeUrl" /><a></a>
+	<spring:url value="/" var="homeUrl" /><a></a>
 	<spring:url value="" var="currentUrl" /><a></a>
 	
 	<h3>

@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -203,6 +204,7 @@ public class BooksController {
     	return "books/view";
     }
     
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
     public String  update(@ModelAttribute("book") @Valid Books book, BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
@@ -254,7 +256,8 @@ public class BooksController {
         bookService.save(book);
         return "redirect:/books/" + UrlUtil.encodeUrlPathSegment(book.getIdBooks().toString(), httpServletRequest);
     }	
-
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
         uiModel.addAttribute("book", bookService.getBookById(id));
@@ -264,6 +267,7 @@ public class BooksController {
         return "books/update";
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.POST)
     public String create(@ModelAttribute("book") @Valid Books book, BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
@@ -312,6 +316,7 @@ public class BooksController {
         return "redirect:/books/" + UrlUtil.encodeUrlPathSegment(book.getIdBooks().toString(), httpServletRequest);
     }	
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
 		Books book = new Books();
@@ -322,7 +327,7 @@ public class BooksController {
         return "books/create";
     }
 	
-	@RequestMapping(value="/cover/{id}", method=RequestMethod.GET)
+    @RequestMapping(value="/cover/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadImage(@PathVariable("id") Integer id) {
 		Books book = bookService.getBookById(id);
@@ -330,7 +335,8 @@ public class BooksController {
 		return book.getBooksImage();
 	}
 	
-	@RequestMapping(value="/download/{id}", method=RequestMethod.GET)
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value="/download/{id}", method=RequestMethod.GET)
 	@ResponseBody
 	public String downloadFile(@PathVariable("id") Integer id, HttpServletResponse httpServletResponse) {
 		FilesOfBook fileOfBook = bookService.getBookById(id).getBooksFile();
@@ -345,7 +351,8 @@ public class BooksController {
         }
         return null;
 	}
-
+    
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Integer id) {
 		bookService.delete(bookService.getBookById(id));

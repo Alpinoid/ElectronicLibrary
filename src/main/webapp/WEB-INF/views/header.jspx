@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div id="header" xmlns:jsp="http://java.sun.com/JSP/Page"
-	 xmlns:spring="http://www.springframework.org/tags">
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:sec="http://www.springframework.org/security/tags">
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
 	<spring:message code="application_name" var="app_name"/>
 	<spring:message code="text_header" var="textHeader" />
 	
+	<spring:message code="label_logout" var="labelLogout" />
+	<spring:message code="label_welcome" var="labelWelcome" />
+	
+	<spring:url value="/j_spring_security_logout" var="logoutUrl" />
+	
 	<div id="appname">
-		<h1>${app_name} - ${textHeader}</h1>
+		<h1>${app_name}
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				- ${textHeader}
+			</sec:authorize>
+		</h1>
 	</div>
+	
+	<div id="userinfo">
+		<sec:authorize access="isAuthenticated()">${labelWelcome}, 
+			<sec:authentication property="principal.username" />
+			<br/>
+			<a href="${logoutUrl}">${labelLogout}</a>
+		</sec:authorize>
+	</div>
+	
 </div>

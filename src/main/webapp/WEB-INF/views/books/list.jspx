@@ -3,7 +3,8 @@
 	 xmlns:c="http://java.sun.com/jsp/jstl/core"
 	 xmlns:joda="http://www.joda.org/joda/time/tags"
 	 xmlns:spring="http://www.springframework.org/tags"
-	 xmlns:form="http://www.springframework.org/tags/form">
+	 xmlns:form="http://www.springframework.org/tags/form"
+	 xmlns:sec="http://www.springframework.org/security/tags">
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
@@ -128,7 +129,8 @@
 		</c:forEach>
 	</div>
 	</form:form>
-	
-	<a href="${addBookUrl}"><h3>${actionAdd}</h3></a>
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<a href="${addBookUrl}"><h3>${actionAdd}</h3></a>
+	</sec:authorize>
 
 </div>

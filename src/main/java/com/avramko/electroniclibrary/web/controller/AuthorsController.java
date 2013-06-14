@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -57,6 +58,7 @@ public class AuthorsController {
     	return "authors/view";
     }
     
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
     public String update(@ModelAttribute("author") @Valid Authors author, BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -73,12 +75,14 @@ public class AuthorsController {
         return "redirect:/authors/" + UrlUtil.encodeUrlPathSegment(author.getIdAuthors().toString(), httpServletRequest);
     }	
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
         uiModel.addAttribute("author", authorService.getAuthorById(id));
         return "authors/update";
 	}
 	
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.POST)
     public String create(@ModelAttribute("author") @Valid Authors author, BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
@@ -95,6 +99,7 @@ public class AuthorsController {
         return "redirect:/authors/" + UrlUtil.encodeUrlPathSegment(author.getIdAuthors().toString(), httpServletRequest);
     }	
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
 		Authors author = new Authors();
@@ -102,6 +107,7 @@ public class AuthorsController {
         return "authors/create";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Integer id) {
         authorService.delete(authorService.getAuthorById(id));
