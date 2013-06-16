@@ -27,8 +27,10 @@
 		
 		<table>
 			<tr>
-				<td>${labelTagId}:</td>
-				<td>${tag.idTags}</td>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<td>${labelTagId}:</td>
+					<td>${tag.idTags}</td>
+				</sec:authorize>
 			</tr>
 			<tr>
 				<td>${labelTagName}:</td>

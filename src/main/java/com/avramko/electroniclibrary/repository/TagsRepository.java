@@ -11,4 +11,5 @@ public interface TagsRepository extends CrudRepository<Tags, Integer>{
 	
 	@SuppressWarnings("rawtypes")
 	List<Tags> findByBooksOfTags(Set booksoftags);
+	
 }

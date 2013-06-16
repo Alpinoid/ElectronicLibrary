@@ -17,6 +17,8 @@
     
     <default-servlet-handler/>
 
+    <context:spring-configured />
+    
     <context:component-scan base-package="com.avramko.electroniclibrary.web.controller"/>
     
     <interceptors>

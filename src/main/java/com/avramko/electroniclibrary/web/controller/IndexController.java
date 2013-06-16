@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 @Controller
 public class IndexController {
-
+	
     @RequestMapping(method=RequestMethod.GET)
-    public String list(Model uiModel) {   	
+    public String list(Model uiModel) {
     	return "/";
     }
     

@@ -43,8 +43,10 @@
 				<td>
 					<table>
 						<tr>
-							<td width="30%">${labelBookId}:</td>
-							<td>${book.idBooks}</td>
+							<sec:authorize access="hasRole('ROLE_ADMIN')">
+								<td width="30%">${labelBookId}:</td>
+								<td>${book.idBooks}</td>
+							</sec:authorize>
 						</tr>
 						<tr>
 							<td>${labelBookName}:</td>

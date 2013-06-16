@@ -6,7 +6,6 @@
     
     <http use-expressions="true" auto-config="true">
 	    <intercept-url pattern="/" access="permitAll"/>
-	    <intercept-url pattern="/*" access="isAuthenticated()" />
 	    <form-login login-page="/"		
 	    			authentication-failure-url="/security/loginfail"
 	    			default-target-url="/books" />
@@ -15,14 +14,14 @@
 	</http>
     
     <authentication-manager alias="authenticationManager">
-        <authentication-provider>   
+        <authentication-provider>
             <jdbc-user-service
             	data-source-ref="dataSource"
             	users-by-username-query="select username,password, enabled
-            								from users where username=?" 
+            							 from users where username=?" 
  				authorities-by-username-query="select u.username, a.authority
- 												from users u, authorities a
- 												where u.username = a.username and u.username =?"/>
+ 											   from users u, authorities a
+ 											   where u.username = a.username and u.username =?"/>
         </authentication-provider>
     </authentication-manager>
      

@@ -27,8 +27,10 @@
 		
 		<table>
 			<tr>
-				<td>${labelAuthorId}:</td>
-				<td>${author.idAuthors}</td>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<td>${labelAuthorId}:</td>
+					<td>${author.idAuthors}</td>
+				</sec:authorize>
 			</tr>
 			<tr>
 				<td>${labelAuthorName}:</td>

@@ -9,8 +9,10 @@
 	<spring:message code="label_login" var="labelLogin" />
 	<spring:message code="label_user_name" var="labelUserName" />
 	<spring:message code="label_user_password" var="labelUserPassword" />
+	<spring:message code="label_user_registration" var="labelUserRegistration" />
 	
 	<spring:url value="/j_spring_security_check" var="loginUrl" />
+	<spring:url value="/security?registration" var="registrationUrl" />
 	
 	<sec:authorize access="isAnonymous()">
      	<div id="login">
@@ -31,10 +33,16 @@
 	   	            	</tr>
 	   	        	</c:if>
 	  				<tr>
-					    <td colspan="2" align="center"><input name="submit" type="submit" value="${labelLogin}"/></td>
+					    <td colspan="2" align="center">
+					    	<input name="submit" type="submit" value="${labelLogin}"/>
+					   	</td>
 	  				</tr>     
             	</table>
         	</form>
+    	</div>
+    	
+    	<div id="registration">
+    		<a href="${registrationUrl}"><h3>${labelUserRegistration}</h3></a>
     	</div>
 	</sec:authorize>
 

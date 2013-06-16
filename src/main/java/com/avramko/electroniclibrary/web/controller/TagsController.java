@@ -39,7 +39,8 @@ public class TagsController {
 	@Autowired
     private BooksService bookService;
 
-    @RequestMapping(method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(method=RequestMethod.GET)
     public String list(Model uiModel) {
     	List<Tags> tags = tagService.getAllTags();
     	uiModel.addAttribute("tags", tags);

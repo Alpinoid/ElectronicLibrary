@@ -39,7 +39,8 @@ public class PublishersController {
 	@Autowired
     private BooksService bookService;
 
-    @RequestMapping(method=RequestMethod.GET)
+	@PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(method=RequestMethod.GET)
     public String list(Model uiModel) {
     	List<Publishers> publishers = publisherService.getAllPublishers();
     	uiModel.addAttribute("publishers", publishers);
