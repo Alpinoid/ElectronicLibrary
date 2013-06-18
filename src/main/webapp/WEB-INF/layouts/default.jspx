@@ -4,6 +4,7 @@
 	  xmlns:fn="http://java.sun.com/jsp/jstl/functions"
 	  xmlns:tiles="http://tiles.apache.org/tags-tiles"
 	  xmlns:spring="http://www.springframework.org/tags"
+	  xmlns:sec="http://www.springframework.org/security/tags"
 >
 <jsp:output doctype-root-element="html"
 		doctype-system="about:legacy-compat" />
@@ -36,7 +37,10 @@
 		<tiles:insertAttribute name="menu" ignore="false" />
 		<div id="main">
 			<tiles:insertAttribute name="body" />
-		</div>	
+			<sec:authorize access="hasRole('ROLE_USER')">
+				<tiles:insertAttribute name="comments" />
+			</sec:authorize>
+		</div>
 	</div>
 	<div id="footerWrapper">
 		<tiles:insertAttribute name="footer" ignore="false" />

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.context.MessageSource;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,10 +39,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.avramko.electroniclibrary.domain.Authors;
 import com.avramko.electroniclibrary.domain.Books;
+import com.avramko.electroniclibrary.domain.Comments;
 import com.avramko.electroniclibrary.domain.FilesOfBook;
 import com.avramko.electroniclibrary.domain.Tags;
 import com.avramko.electroniclibrary.service.AuthorsService;
 import com.avramko.electroniclibrary.service.BooksService;
+import com.avramko.electroniclibrary.service.CommentsService;
 import com.avramko.electroniclibrary.service.PublishersService;
 import com.avramko.electroniclibrary.service.TagsService;
 import com.avramko.electroniclibrary.web.form.Message;
@@ -80,6 +84,9 @@ public class BooksController {
 	
 	@Autowired
     private TagsService tagService;
+	
+	@Autowired
+    private CommentsService commentService;
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) throws Exception {
@@ -192,15 +199,40 @@ public class BooksController {
 		
 		return "redirect:/books";
 	}
+	
+    @PreAuthorize("hasRole('ROLE_USER')")
+	@RequestMapping(value="/{id}", method = RequestMethod.POST)
+    public String addComment(@ModelAttribute("newComment") @Valid Comments newComment,
+    						 @PathVariable("id") Integer id, BindingResult bindingResult, Model uiModel, 
+    						 HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+    	
+        if (bindingResult.hasErrors()) {
+			uiModel.addAttribute("message", new Message("error", messageSource.getMessage("message_save_fail", new Object[]{}, locale)));
+            uiModel.addAttribute("newComment", newComment);
+            return "books/view";
+        }
+        Books book = bookService.getBookById(id);
+        newComment.setCommentBook(book);
+        newComment.setCommentDate(new DateTime());
+        newComment.setCommentUser(SecurityContextHolder.getContext().getAuthentication().getName());
+        uiModel.asMap().clear();
+        
+        commentService.save(newComment);
+        return "redirect:/books/" + UrlUtil.encodeUrlPathSegment(newComment.getCommentBook().getIdBooks().toString(), httpServletRequest);
+    }	
     
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
     public String view(@PathVariable("id") Integer id, Model uiModel) {
     	Books book = bookService.getBookById(id);
+    	Comments newComment = new Comments(SecurityContextHolder.getContext().getAuthentication().getName(), book);
     	List<Authors> authors = authorService.getAuthorsByBook(book);
     	List<Tags> tags = tagService.getTagsByBook(book);
+    	List<Comments> comments = commentService.getCommentsByBook(book);
     	uiModel.addAttribute("book", book);
     	uiModel.addAttribute("listAuthors", authors);
     	uiModel.addAttribute("listTags", tags);
+    	uiModel.addAttribute("listComments", comments);
+    	uiModel.addAttribute("newComment", newComment);
     	return "books/view";
     }
     

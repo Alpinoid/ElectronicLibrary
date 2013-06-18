@@ -34,8 +34,7 @@
 			<form:label path="authorsName">
 		    	${labelAuthorName}*: 
 		    </form:label>
-		    <form:input path="authorsName" />
-		    
+		    <form:input path="authorsName" />  
 			<div>
 				<form:errors path="authorsName" cssClass="error" />
 			</div>

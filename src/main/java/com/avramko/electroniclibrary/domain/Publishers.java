@@ -18,14 +18,12 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@SuppressWarnings("serial")
-
 @Entity
 @Table(name="publishers",
        catalog="librarydb",
        uniqueConstraints = @UniqueConstraint(columnNames="PublisherName") 
 )
-public class Publishers implements java.io.Serializable {
+public class Publishers {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)

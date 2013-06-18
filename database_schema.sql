@@ -147,6 +147,31 @@ CREATE  TABLE IF NOT EXISTS `LibraryDB`.`Authorities` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `LibraryDB`.`CommentsOfBooks`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `LibraryDB`.`CommentsOfBooks` (
+  `CommentID` INT NOT NULL AUTO_INCREMENT ,
+  `CommentUser` VARCHAR(50) NOT NULL ,
+  `CommentBook` INT NOT NULL ,
+  `CommentDate` TIMESTAMP NOT NULL ,
+  `CommentText` TEXT NOT NULL ,
+  PRIMARY KEY (`CommentID`) ,
+  INDEX `fk_comments_users_idx` (`CommentUser` ASC) ,
+  INDEX `fk_comments_books_idx` (`CommentBook` ASC) ,
+  CONSTRAINT `fk_comments_users`
+    FOREIGN KEY (`CommentUser` )
+    REFERENCES `LibraryDB`.`Users` (`username` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comments_books`
+    FOREIGN KEY (`CommentBook` )
+    REFERENCES `LibraryDB`.`Books` (`BookID` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 USE `LibraryDB` ;
 
 

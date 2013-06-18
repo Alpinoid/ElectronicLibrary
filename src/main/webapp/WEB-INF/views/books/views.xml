@@ -9,6 +9,7 @@
 	</definition>
 	<definition extends="default" name="books/view">
 		<put-attribute name="body" value="/WEB-INF/views/books/view.jspx"/>
+		<put-attribute name="comments" value="/WEB-INF/views/books/comments.jspx"/>
 	</definition>
 	<definition extends="default" name="books/update">
 		<put-attribute name="body" value="/WEB-INF/views/books/edit.jspx"/>
@@ -16,4 +17,5 @@
 	<definition extends="default" name="books/create">
 		<put-attribute name="body" value="/WEB-INF/views/books/edit.jspx"/>
 	</definition>
+	
 </tiles-definitions>

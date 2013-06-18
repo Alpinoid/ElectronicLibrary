@@ -1,6 +1,5 @@
 package com.avramko.electroniclibrary.domain;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,13 +16,11 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
-@SuppressWarnings("serial")
-
 @Entity
 @Table(name="authors",
        catalog="librarydb"
 )
-public class Authors implements Serializable {
+public class Authors {
 
 	@Id
     @GeneratedValue(strategy=IDENTITY)

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+	 xmlns:c="http://java.sun.com/jsp/jstl/core"
+	 xmlns:joda="http://www.joda.org/joda/time/tags"
+	 xmlns:spring="http://www.springframework.org/tags"
+	 xmlns:form="http://www.springframework.org/tags/form"
+	 xmlns:sec="http://www.springframework.org/security/tags">
+	<jsp:directive.page contentType="text/html; charset=UTF-8" />
+	<jsp:output omit-xml-declaration="yes" />
+	
+	<spring:message code="label_comments" var="labelComment" />
+	<spring:message code="label_add_comment" var="labelAddComment" />
+	<spring:message code="action_save" var="actionSave" />
+    <spring:message code="action_reset" var="actionReset" />
+    <spring:message code="date_time_format" var="dateTimeFormat" />
+	
+	<h2>${labelComment}</h2>
+	
+	<div id="listComments">
+		<c:if test="${not empty listComments}">
+			<table>
+				<c:forEach items="${listComments}" var="comment">
+					<tr>
+						<td width="20%">
+							${comment.commentUser}<br/>
+							<joda:format value="${comment.commentDate}" pattern="${dateTimeFormat}"/>		
+						</td>
+						<td>
+							<pre>
+								<c:out value="${comment.commentText}" />
+							</pre>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:if>
+	</div>
+	
+	<div id="commentAdd">
+		<h3>${labelAddComment}:</h3>
+	    <form:form modelAttribute="newComment" id="commentAddForm" method="post">
+	
+ 	        <c:if test="${not empty message}">
+ 	            <div id="message" class="${message.type}">${message.message}</div>
+ 	        </c:if>
+	        
+			<form:textarea cols="60" rows="8" path="commentText" id="commentText"/>
+	        <div>
+	            <form:errors path="commentText" cssClass="error" />
+	        </div>        
+	        <p/>  
+	
+   	        <button type="submit">${actionSave}</button>
+	        <button type="reset">${actionReset}</button> 
+	        
+	    </form:form>   
+    </div>
+
+</div>

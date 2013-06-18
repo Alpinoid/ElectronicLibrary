@@ -19,13 +19,12 @@ import javax.persistence.Table;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-@SuppressWarnings("serial")
 
 @Entity
 @Table(name="filesofbook",
        catalog="librarydb") 
 
-public class FilesOfBook implements java.io.Serializable {
+public class FilesOfBook {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)

@@ -17,14 +17,12 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@SuppressWarnings("serial")
-
 @Entity
 @Table(name="tags",
        catalog="librarydb",
        uniqueConstraints = @UniqueConstraint(columnNames="TagName") 
 )
-public class Tags implements java.io.Serializable {
+public class Tags {
 
     @Id
     @GeneratedValue(strategy=IDENTITY)

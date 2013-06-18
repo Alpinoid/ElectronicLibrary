@@ -7,5 +7,7 @@
 		<put-attribute name="header" value="/WEB-INF/views/header.jspx"/>
 		<put-attribute name="menu" value="/WEB-INF/views/menu.jspx"/>
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
+		<put-attribute name="body" value=""/>
+		<put-attribute name="comments" value=""/>
 	</definition>
 </tiles-definitions>

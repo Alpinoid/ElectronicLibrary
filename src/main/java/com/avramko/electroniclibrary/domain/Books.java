@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -28,13 +29,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-@SuppressWarnings("serial")
-
 @Entity
 @Table(name="books",
        catalog="librarydb"
 )
-public class Books implements java.io.Serializable {
+public class Books {
 
     @Id @GeneratedValue(strategy=IDENTITY)
     @Column(name="BookID", unique=true, nullable=false)
@@ -76,6 +75,9 @@ public class Books implements java.io.Serializable {
     
     @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="book")
     private FilesOfBook booksFile;
+    
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="commentBook")
+    private Set<Comments> comments = new HashSet<Comments>(0);
 
     public Books() {
     	this.booksName = "";
