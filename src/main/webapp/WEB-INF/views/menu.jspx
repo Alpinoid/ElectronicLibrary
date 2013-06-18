@@ -6,19 +6,18 @@
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
-	<spring:message code="action_home_book" var="actionHomeBook" />
-	<spring:message code="action_home_author" var="actionHomeAuthor" />
-	<spring:message code="action_home_publisher" var="actionHomePublisher" />
-	<spring:message code="action_home_tag" var="actionHomeTag" />
+	<spring:message code="action_all_book" var="actionAllBook" />
 	
 	<spring:url value="/books" var="booksUrl" />
-	<spring:url value="/authors" var="authorsUrl" />
-	<spring:url value="/publishers" var="publishersUrl" />
-	<spring:url value="/tags" var="tagsUrl" />
 	
-	<a href="${booksUrl}"><h3>${actionHomeBook}</h3></a>
-	<a href="${authorsUrl}"><h3>${actionHomeAuthor}</h3></a>
-	<a href="${publishersUrl}"><h3>${actionHomePublisher}</h3></a>
-	<a href="${tagsUrl}"><h3>${actionHomeTag}</h3></a>
+	<c:if test="${not empty menuParams}">
+		<a href="${menuParams.get(0)}"><h3>${menuParams.get(1)}</h3></a>
+	</c:if>
+	
+	<c:if test="${not empty menuListTags}">
+		<c:forEach items="${menuListTags}" var="tag">
+			<a href=""><h3>${tag.tagsName}</h3></a>
+		</c:forEach>
+	</c:if>	
 	
 </div>

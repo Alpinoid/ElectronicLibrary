@@ -1,5 +1,6 @@
 package com.avramko.electroniclibrary.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +30,14 @@ import com.avramko.electroniclibrary.web.util.UrlUtil;
 @RequestMapping("/tags")
 @Controller
 public class TagsController {
+	
+	@ModelAttribute("menuParams")
+	public List<String> getMenuParams(HttpServletRequest request, Locale locale) {
+		List<String> params = new ArrayList<String>();
+		params.add(request.getContextPath()+"/tags");
+		params.add(messageSource.getMessage("action_home_tag", new Object[]{}, locale));
+		return params;
+	}
     
 	@Autowired
 	MessageSource messageSource;
@@ -41,20 +50,26 @@ public class TagsController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(method=RequestMethod.GET)
-    public String list(Model uiModel) {
+    public String list(Model uiModel, Locale locale) {
     	List<Tags> tags = tagService.getAllTags();
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_tag_list", new Object[]{}, locale);
     	uiModel.addAttribute("tags", tags);
+    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "tags/list";
     }
     
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public String view(@PathVariable("id") Integer id, Model uiModel) {
+    public String view(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
     	Tags tag = tagService.getTagById(id);
     	List<Books> books = bookService.getBooksByTag(tag);
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_tag_info", new Object[]{}, locale);
     	
     	uiModel.addAttribute("tag", tag);
     	uiModel.addAttribute("listBooks", books);
+    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "tags/view";
     }
@@ -78,8 +93,11 @@ public class TagsController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    public String updateForm(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_tag_update", new Object[]{}, locale);
         uiModel.addAttribute("tag", tagService.getTagById(id));
+        uiModel.addAttribute("textHeader", textHeader);
         return "tags/update";
 	}
 	
@@ -102,9 +120,12 @@ public class TagsController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
-    public String createForm(Model uiModel) {
+    public String createForm(Model uiModel, Locale locale) {
 		Tags tag = new Tags();
+		String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_tag_new", new Object[]{}, locale);
         uiModel.addAttribute("tag", tag);
+        uiModel.addAttribute("textHeader", textHeader);
         return "tags/create";
     }
 

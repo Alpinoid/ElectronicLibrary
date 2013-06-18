@@ -7,8 +7,6 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
-    <spring:message code="label_book_new" var="labelBookNew"/>
-    <spring:message code="label_book_update" var="labelBookUpdate"/>
     <spring:message code="label_book_id" var="labelBookId" />
     <spring:message code="label_book_name" var="labelBookName"/>
     <spring:message code="label_book_author" var="labelBookAuthor"/>
@@ -21,12 +19,8 @@
     <spring:message code="action_save" var="actionSave"/>
     <spring:message code="action_reset" var="actionReset"/>
     
-    <spring:eval expression="book.idBooks == null ? labelBookNew:labelBookUpdate" var="formTitle"/>
-    
     <spring:url value="/books/cover" var="bookCoverUrl" />
     <spring:url value="/books/download" var="bookFileUrl" />
-
-    <h1>${formTitle}</h1>
 
     <div id="bookUpdate">
 	    <form:form modelAttribute="book" id="bookUpdateForm" method="post" enctype="multipart/form-data">

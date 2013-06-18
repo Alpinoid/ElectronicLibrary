@@ -7,7 +7,6 @@
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
-	<spring:message code="label_publisher_info" var="labelPublisherInfo" />
 	<spring:message code="label_publisher_id" var="labelPublisherId" />
 	<spring:message code="label_publisher_name" var="labelPublisherName" />
 	<spring:message code="label_publisher_books" var="labelPublisherBooks" />
@@ -16,8 +15,6 @@
 		
 	<spring:url value="/publishers" var="editPublisherUrl" />
 	<spring:url value="/books" var="viewBookUrl" />
-	
-	<h1>${labelPublisherInfo}</h1>
 	
 	<div id="publisherInfo">
 	

@@ -3,6 +3,7 @@ package com.avramko.electroniclibrary.web.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -60,6 +61,14 @@ import com.avramko.electroniclibrary.web.validator.BooksImageValidator;
 @SessionAttributes({"searchBook","pageRequest"})
 public class BooksController {
 	
+	@ModelAttribute("menuParams")
+	public List<String> getMenuParams(HttpServletRequest request, Locale locale) {
+		List<String> params = new ArrayList<String>();
+		params.add(request.getContextPath()+"/books");
+		params.add(messageSource.getMessage("action_all_book", new Object[]{}, locale));
+		return params;
+	}
+	
 	@ModelAttribute("searchBook")
 	public SearchBooks getSearchBooks() {  
         return new SearchBooks();
@@ -67,7 +76,7 @@ public class BooksController {
 	
 	@ModelAttribute("pageRequest")
 	public PageRequest getPageRequest() {  
-        return new PageRequest(0, 5, Direction.ASC, "booksName");
+        return new PageRequest(0, RecordsOnPage.show.BY_10.getNumberOfRecords(), Direction.ASC, "booksName");
 	}
 	
 	@Autowired
@@ -119,7 +128,7 @@ public class BooksController {
 	@RequestMapping(method=RequestMethod.GET)
     public String list(@ModelAttribute("searchBook") SearchBooks searchBook,
     				   @ModelAttribute("pageRequest") PageRequest pageRequest,
-    				   BindingResult bindingResult, Model uiModel) {
+    				   BindingResult bindingResult, Model uiModel, Locale locale) {
 		
 		String searchString = searchBook.getSearchString();
 		if (searchString == "") {
@@ -131,11 +140,16 @@ public class BooksController {
 		Page<Books> page = null;
 		String searchField = searchBook.getSearchField().toString();
         page = bookService.getBooksByCustomField(searchField, searchString, pageRequest);
+        
+        List<Tags> menuListTags = tagService.getAllTags();
 
 	    int current = page.getNumber()+1;
 	    int begin = Math.max(1, current - 5);
 	    int end = Math.min(begin + 10, page.getTotalPages());
 	    int pageSize = page.getSize();
+	    
+	    String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+	    					messageSource.getMessage("label_book_list", new Object[]{}, locale);
 	
 	    uiModel.addAttribute("searchBook", searchBook);
 	    uiModel.addAttribute("listSearchFields", SearchFieldsOfBooks.Fields.values());
@@ -147,6 +161,8 @@ public class BooksController {
     	uiModel.addAttribute("currentIndex", current);
     	uiModel.addAttribute("pages", page.getTotalPages());
     	uiModel.addAttribute("recordsOnPage", RecordsOnPage.show.values());
+    	uiModel.addAttribute("menuListTags", menuListTags);
+    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "books/list";
     }
@@ -222,17 +238,20 @@ public class BooksController {
     }	
     
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
-    public String view(@PathVariable("id") Integer id, Model uiModel) {
+    public String view(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
     	Books book = bookService.getBookById(id);
     	Comments newComment = new Comments(SecurityContextHolder.getContext().getAuthentication().getName(), book);
     	List<Authors> authors = authorService.getAuthorsByBook(book);
     	List<Tags> tags = tagService.getTagsByBook(book);
     	List<Comments> comments = commentService.getCommentsByBook(book);
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_book_info", new Object[]{}, locale);
     	uiModel.addAttribute("book", book);
     	uiModel.addAttribute("listAuthors", authors);
     	uiModel.addAttribute("listTags", tags);
     	uiModel.addAttribute("listComments", comments);
     	uiModel.addAttribute("newComment", newComment);
+    	uiModel.addAttribute("textHeader", textHeader);
     	return "books/view";
     }
     
@@ -241,8 +260,7 @@ public class BooksController {
     public String  update(@ModelAttribute("book") @Valid Books book, BindingResult bindingResult, Model uiModel, 
     		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
     		@Valid @RequestParam(value="image", required=false) MultipartFile fileImage,
-    		@Valid @RequestParam(value="file", required=false) MultipartFile fileBook) {
-		
+    		@Valid @RequestParam(value="file", required=false) MultipartFile fileBook) {	
     	
     	if (fileImage.getSize() != 0) {
         	BooksImageValidator imageValidator = new BooksImageValidator();
@@ -291,11 +309,14 @@ public class BooksController {
     
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    public String updateForm(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_book_update", new Object[]{}, locale);
         uiModel.addAttribute("book", bookService.getBookById(id));
         uiModel.addAttribute("listAuthors", authorService.getAllAuthors());
         uiModel.addAttribute("listPublishers", publisherService.getAllPublishers());
         uiModel.addAttribute("listTags", tagService.getAllTags());
+        uiModel.addAttribute("textHeader", textHeader);
         return "books/update";
 	}
 	
@@ -350,12 +371,15 @@ public class BooksController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
-    public String createForm(Model uiModel) {
+    public String createForm(Model uiModel, Locale locale) {
 		Books book = new Books();
+		String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_book_new", new Object[]{}, locale);
         uiModel.addAttribute("book", book);
         uiModel.addAttribute("listAuthors", authorService.getAllAuthors());
         uiModel.addAttribute("listPublishers", publisherService.getAllPublishers());
         uiModel.addAttribute("listTags", tagService.getAllTags());
+        uiModel.addAttribute("textHeader", textHeader);
         return "books/create";
     }
 	

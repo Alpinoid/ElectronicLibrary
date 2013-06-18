@@ -1,5 +1,6 @@
 package com.avramko.electroniclibrary.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +30,14 @@ import com.avramko.electroniclibrary.web.util.UrlUtil;
 @RequestMapping("/publishers")
 @Controller
 public class PublishersController {
+	
+	@ModelAttribute("menuParams")
+	public List<String> getMenuParams(HttpServletRequest request, Locale locale) {
+		List<String> params = new ArrayList<String>();
+		params.add(request.getContextPath()+"/publishers");
+		params.add(messageSource.getMessage("action_home_publisher", new Object[]{}, locale));
+		return params;
+	}
     
 	@Autowired
 	MessageSource messageSource;
@@ -41,20 +50,26 @@ public class PublishersController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(method=RequestMethod.GET)
-    public String list(Model uiModel) {
+    public String list(Model uiModel, Locale locale) {
     	List<Publishers> publishers = publisherService.getAllPublishers();
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_publisher_list", new Object[]{}, locale);
     	uiModel.addAttribute("publishers", publishers);
+    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "publishers/list";
     }
     
     @RequestMapping(value="/{id}",method = RequestMethod.GET)
-    public String view(@PathVariable("id") Integer id, Model uiModel) {
+    public String view(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
     	Publishers publisher = publisherService.getPublisherById(id);
     	List<Books> books = bookService.getBooksByPublisher(publisher);
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+    						messageSource.getMessage("label_publisher_info", new Object[]{}, locale);
     	
     	uiModel.addAttribute("publisher", publisher);
     	uiModel.addAttribute("listBooks", books);
+    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "publishers/view";
     }
@@ -78,8 +93,11 @@ public class PublishersController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Integer id, Model uiModel) {
+    public String updateForm(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
+    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_publisher_update", new Object[]{}, locale);
         uiModel.addAttribute("publisher", publisherService.getPublisherById(id));
+        uiModel.addAttribute("textHeader", textHeader);
         return "publishers/update";
 	}
 	
@@ -102,9 +120,12 @@ public class PublishersController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
-    public String createForm(Model uiModel) {
+    public String createForm(Model uiModel, Locale locale) {
 		Publishers publisher = new Publishers();
+		String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
+							messageSource.getMessage("label_publisher_new", new Object[]{}, locale);
         uiModel.addAttribute("publisher", publisher);
+        uiModel.addAttribute("textHeader", textHeader);
         return "publishers/create";
     }
 	

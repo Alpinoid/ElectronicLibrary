@@ -6,14 +6,11 @@
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
-	<spring:message code="label_publisher_list" var="labelPublisherList" />
 	<spring:message code="label_publisher_name" var="labelPublisherName" />
 	<spring:message code="action_add" var="actionAdd" />
 	
 	<spring:url value="/publishers" var="viewPublisherUrl" />
 	<spring:url value="/publishers?form" var="addPublisherUrl" />
-
-	<H1>${labelPublisherList}</H1>
 	
 	<c:if test="${not empty publishers}">
 		<TABLE>

@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
     
-    <http use-expressions="true" auto-config="true">
+    <http use-expressions="true" >
 	    <intercept-url pattern="/" access="permitAll"/>
 	    <form-login login-page="/"		
 	    			authentication-failure-url="/security/loginfail"

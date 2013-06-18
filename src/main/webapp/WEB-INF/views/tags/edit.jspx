@@ -7,16 +7,10 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
-    <spring:message code="label_tag_new" var="labelTagNew"/>
-    <spring:message code="label_tag_update" var="labelTagUpdate"/>
     <spring:message code="label_tag_id" var="labelTagId" />
     <spring:message code="label_tag_name" var="labelTagName"/>
     <spring:message code="action_save" var="actionSave"/>
     <spring:message code="action_reset" var="actionReset"/>
-    
-    <spring:eval expression="tag.idTags == null ? labelTagNew:labelTagUpdate" var="formTitle"/>
-
-    <h1>${formTitle}</h1>
 
     <div id="tagUpdate">
 	    <form:form modelAttribute="tag" id="tagUpdateForm" method="post">

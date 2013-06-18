@@ -7,16 +7,10 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
-    <spring:message code="label_publisher_new" var="labelPublisherNew"/>
-    <spring:message code="label_publisher_update" var="labelPublisherUpdate"/>
     <spring:message code="label_publisher_id" var="labelPublisherId" />
     <spring:message code="label_publisher_name" var="labelPublisherName"/>
     <spring:message code="action_save" var="actionSave"/>
     <spring:message code="action_reset" var="actionReset"/>
-    
-    <spring:eval expression="publisher.idPublishers == null ? labelPublisherNew:labelPublisherUpdate" var="formTitle"/>
-
-    <h1>${formTitle}</h1>
 
     <div id="publisherUpdate">
 	    <form:form modelAttribute="publisher" id="publisherUpdateForm" method="post">

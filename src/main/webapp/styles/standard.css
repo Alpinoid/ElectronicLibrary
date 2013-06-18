@@ -17,26 +17,26 @@ body {
 	margin-bottom: 1em;
 }
 
-#appname {
+#topnav {
     float: left;
+    vertical-align: top;
     margin: 5;
-    padding: 5px 0px;
-    font-size: 150%;
-    vertical-align: middle;
-}
-
-#banner {
-    float: left;
-    margin: 5;
-    padding: 5px 10px;
-    font-size: 150%;
-    vertical-align: middle;
+    padding: 5px 5px;
 }
     
 #userinfo {
-    float: right;
+    text-align: right;
+    vertical-align: top;
     margin: 5;
     padding: 5px 5px;
+}
+
+#appname {
+    text-align: left;
+    vertical-align: top;
+    margin: 5;
+    padding: 5px 5px;
+    font-size: 150%;   
 }
 
 #language {
@@ -69,7 +69,7 @@ body {
     width:expression(document.body.clientWidth > 950? "950px": "auto" );
     
     overflow:hidden;
-    display:block;
+    display: block;
 }
 
 #wrapper {

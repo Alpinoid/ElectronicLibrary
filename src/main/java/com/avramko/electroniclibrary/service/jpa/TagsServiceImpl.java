@@ -12,6 +12,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +32,10 @@ public class TagsServiceImpl implements TagsService {
 	@Override
 	@Transactional(readOnly=true)
 	public List<Tags> getAllTags() { 
-        return (List<Tags>) tagRepository.findAll();
+		Sort sort = new Sort(Direction.ASC, "tagsName");
+        return (List<Tags>) tagRepository.findAll(sort);
 	}
-
+	
 	@Override
 	@Transactional(readOnly=true)
 	public Tags getTagById(Integer tag_id) {	

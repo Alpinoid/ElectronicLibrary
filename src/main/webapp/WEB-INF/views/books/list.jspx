@@ -8,7 +8,6 @@
 	<jsp:directive.page contentType="text/html; charset=UTF-8"/>
 	<jsp:output omit-xml-declaration="yes" />
 	
-	<spring:message code="label_book_list" var="labelBookList" />
 	<spring:message code="label_book_name" var="labelBookName" />
 	<spring:message code="label_book_author" var="labelBookAuthors" />
 	<spring:message code="label_book_publish_date" var="labelPublishDate"/>
@@ -22,8 +21,6 @@
 	<spring:url value="/books" var="viewBookUrl" />
 	<spring:url value="/books?form" var="addBookUrl" />
 	<spring:url value="/authors" var="viewAuthorUrl" />
-	
-	<h1>${labelBookList}</h1>
 	
  	<form:form modelAttribute="searchBook" action="${viewBookUrl}" method="get" id="search-books-form">
 		<div id="searchString">
