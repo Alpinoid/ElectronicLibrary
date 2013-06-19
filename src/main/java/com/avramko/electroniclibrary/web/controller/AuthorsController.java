@@ -1,6 +1,5 @@
 package com.avramko.electroniclibrary.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,6 +23,7 @@ import com.avramko.electroniclibrary.domain.Books;
 import com.avramko.electroniclibrary.service.AuthorsService;
 import com.avramko.electroniclibrary.service.BooksService;
 import com.avramko.electroniclibrary.web.form.Message;
+import com.avramko.electroniclibrary.web.form.PageParams;
 import com.avramko.electroniclibrary.web.util.UrlUtil;
 
 
@@ -31,12 +31,12 @@ import com.avramko.electroniclibrary.web.util.UrlUtil;
 @Controller
 public class AuthorsController {
 	
-	@ModelAttribute("menuParams")
-	public List<String> getMenuParams(HttpServletRequest request, Locale locale) {
-		List<String> params = new ArrayList<String>();
-		params.add(request.getContextPath()+"/authors");
-		params.add(messageSource.getMessage("action_home_author", new Object[]{}, locale));
-		return params;
+	@ModelAttribute("pageParams")
+	public PageParams setPageParams(HttpServletRequest httpServletRequest, Locale locale) {
+		PageParams pageParams = new PageParams();
+		pageParams.setMenuText("action_home_author", messageSource, locale);
+		pageParams.setMenuUrl("/authors", httpServletRequest);
+		return pageParams;
 	}
     
 	@Autowired
@@ -50,34 +50,33 @@ public class AuthorsController {
 
 	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(method=RequestMethod.GET)
-    public String list(Model uiModel, Locale locale) {
+    public String list(@ModelAttribute("pageParams") PageParams pageParams, Model uiModel, Locale locale) {
     	List<Authors> authors = authorService.getAllAuthors();
-    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
-							messageSource.getMessage("label_author_list", new Object[]{}, locale);
+    	pageParams.setHeaderText("label_author_list", messageSource, locale);
+    	
     	uiModel.addAttribute("authors", authors);
-    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "authors/list";
     }
     
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
-    public String view(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
+    public String view(@ModelAttribute("pageParams") PageParams pageParams,
+    				   @PathVariable("id") Integer id, Model uiModel, Locale locale) {
     	Authors author = authorService.getAuthorById(id);
     	List<Books> books = bookService.getBooksByAuthor(author);
-    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
-							messageSource.getMessage("label_author_info", new Object[]{}, locale);
+    	pageParams.setHeaderText("label_author_info", messageSource, locale);
     	
     	uiModel.addAttribute("author", author);
     	uiModel.addAttribute("listBooks", books);
-    	uiModel.addAttribute("textHeader", textHeader);
     	
     	return "authors/view";
     }
     
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
-    public String update(@ModelAttribute("author") @Valid Authors author, BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+    public String update(@ModelAttribute("author") @Valid Authors author,
+    					 BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest,
+    					 RedirectAttributes redirectAttributes, Locale locale) {
 		
         if (bindingResult.hasErrors()) {
         	uiModel.addAttribute("message", new Message("error", messageSource.getMessage("message_save_fail", new Object[]{}, locale)));        	
@@ -93,18 +92,20 @@ public class AuthorsController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Integer id, Model uiModel, Locale locale) {
-    	String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
-							messageSource.getMessage("label_author_update", new Object[]{}, locale);
+    public String updateForm(@ModelAttribute("pageParams") PageParams pageParams,
+    						 @PathVariable("id") Integer id, Model uiModel, Locale locale) {
+    	pageParams.setHeaderText("label_author_update", messageSource, locale);
+
         uiModel.addAttribute("author", authorService.getAuthorById(id));
-        uiModel.addAttribute("textHeader", textHeader);
+
         return "authors/update";
 	}
 	
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.POST)
-    public String create(@ModelAttribute("author") @Valid Authors author, BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+    public String create(@ModelAttribute("author") @Valid Authors author,
+    					 BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest,
+    					 RedirectAttributes redirectAttributes, Locale locale) {
 
         if (bindingResult.hasErrors()) {
 			uiModel.addAttribute("message", new Message("error", messageSource.getMessage("message_save_fail", new Object[]{}, locale)));
@@ -120,12 +121,12 @@ public class AuthorsController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
-    public String createForm(Model uiModel, Locale locale) {
+    public String createForm(@ModelAttribute("pageParams") PageParams pageParams, Model uiModel, Locale locale) {
 		Authors author = new Authors();
-		String textHeader = messageSource.getMessage("application_name", new Object[]{}, locale) + " - " +
-							messageSource.getMessage("label_author_new", new Object[]{}, locale);
+		pageParams.setHeaderText("label_author_new", messageSource, locale);
+
         uiModel.addAttribute("author", author);
-        uiModel.addAttribute("textHeader", textHeader);
+
         return "authors/create";
     }
 

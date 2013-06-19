@@ -10,8 +10,8 @@
 	
 	<spring:url value="/books" var="booksUrl" />
 	
-	<c:if test="${not empty menuParams}">
-		<a href="${menuParams.get(0)}"><h3>${menuParams.get(1)}</h3></a>
+	<c:if test="${not empty pageParams}">
+		<a href="${pageParams.menuUrl}"><h3>${pageParams.menuText}</h3></a>
 	</c:if>
 	
 	<c:if test="${not empty menuListTags}">
