@@ -20,9 +20,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PublishersServiceImpl implements PublishersService {
 
+	/**
+	 * @uml.property  name="publisherRepository"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private PublishersRepository publisherRepository;	
 	
+	/**
+	 * @uml.property  name="em"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@PersistenceContext
 	private EntityManager em;
 

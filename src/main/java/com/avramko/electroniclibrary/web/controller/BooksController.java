@@ -79,21 +79,45 @@ public class BooksController {
         return new PageRequest(0, RecordsOnPage.show.BY_10.getNumberOfRecords(), Direction.ASC, "booksName");
 	}
 	
+	/**
+	 * @uml.property  name="messageSource"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	MessageSource messageSource;
 	
+	/**
+	 * @uml.property  name="bookService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private BooksService bookService;
 	
+	/**
+	 * @uml.property  name="authorService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private AuthorsService authorService;
 	
+	/**
+	 * @uml.property  name="publisherService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private PublishersService publisherService;
 	
+	/**
+	 * @uml.property  name="tagService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private TagsService tagService;
 	
+	/**
+	 * @uml.property  name="commentService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private CommentsService commentService;
 	
@@ -141,8 +165,6 @@ public class BooksController {
 		Page<Books> page = null;
 		String searchField = searchBook.getSearchField().toString();
         page = bookService.getBooksByCustomField(searchField, searchString, pageRequest);
-        
-        List<Tags> menuListTags = tagService.getAllTags();
 
 	    int current = page.getNumber()+1;
 	    int begin = Math.max(1, current - 5);
@@ -151,17 +173,14 @@ public class BooksController {
 	    
 	    pageParams.setHeaderText("label_book_list", messageSource, locale);
 	
-	    uiModel.addAttribute("searchBook", searchBook);
 	    uiModel.addAttribute("listSearchFields", SearchFieldsOfBooks.Fields.values());
 	    uiModel.addAttribute("books", page.getContent());
-	    uiModel.addAttribute("pageRequest", pageRequest);
     	uiModel.addAttribute("beginIndex", begin);
     	uiModel.addAttribute("endIndex", end);
     	uiModel.addAttribute("pageSize", pageSize);
     	uiModel.addAttribute("currentIndex", current);
     	uiModel.addAttribute("pages", page.getTotalPages());
     	uiModel.addAttribute("recordsOnPage", RecordsOnPage.show.values());
-    	uiModel.addAttribute("menuListTags", menuListTags);
     	
     	return "books/list";
     }

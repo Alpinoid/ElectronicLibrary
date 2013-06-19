@@ -39,12 +39,24 @@ public class PublishersController {
 		return pageParams;
 	}
     
+	/**
+	 * @uml.property  name="messageSource"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	MessageSource messageSource;
 	
+	/**
+	 * @uml.property  name="publisherService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private PublishersService publisherService;
 	
+	/**
+	 * @uml.property  name="bookService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private BooksService bookService;
 

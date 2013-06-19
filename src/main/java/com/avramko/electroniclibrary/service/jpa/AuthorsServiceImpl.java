@@ -21,9 +21,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AuthorsServiceImpl implements AuthorsService {
 
+	/**
+	 * @uml.property  name="authorRepository"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private AuthorsRepository authorRepository;
 	
+	/**
+	 * @uml.property  name="em"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@PersistenceContext
 	private EntityManager em;
 

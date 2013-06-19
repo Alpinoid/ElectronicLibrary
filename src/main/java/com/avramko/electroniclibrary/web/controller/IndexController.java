@@ -18,6 +18,10 @@ import com.avramko.electroniclibrary.web.form.PageParams;
 @Controller
 public class IndexController {
 	
+	/**
+	 * @uml.property  name="messageSource"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	MessageSource messageSource;
 	

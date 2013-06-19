@@ -18,9 +18,17 @@ import com.avramko.electroniclibrary.service.FilesOfBookService;
 @Transactional
 public class FilesOfBookServiceImpl implements FilesOfBookService{
 	
+	/**
+	 * @uml.property  name="filesRepository"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private FilesOfBookRepository filesRepository;	
 	
+	/**
+	 * @uml.property  name="em"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@PersistenceContext
 	private EntityManager em;
 

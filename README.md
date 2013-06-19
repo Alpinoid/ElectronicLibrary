@@ -38,3 +38,18 @@ Web-сервер: Apache Tomcat 7.0
 Реализация представлений: JSPX
 
 IDE: Eclipse
+
+## Настройки серверов:
+
+### Apache Tomcat
+В файле настройки сервера server.xml:
+<Connector URIEncoding="UTF-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+доавить: 'URIEncoding="UTF-8"'
+
+### MySQL
+Дополнительный файлы:
+- Library_MySQL_model.mwb: MySQl Workbench model
+- database_schema.sql: скрипт для создания необходимых таблиц
+- user_data.sql: скрипт для добавления пользователей admin:admin и guest:guest в базу данных
+
+

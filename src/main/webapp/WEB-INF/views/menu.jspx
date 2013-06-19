@@ -14,10 +14,4 @@
 		<a href="${pageParams.menuUrl}"><h3>${pageParams.menuText}</h3></a>
 	</c:if>
 	
-	<c:if test="${not empty menuListTags}">
-		<c:forEach items="${menuListTags}" var="tag">
-			<a href=""><h3>${tag.tagsName}</h3></a>
-		</c:forEach>
-	</c:if>	
-	
 </div>

@@ -23,9 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TagsServiceImpl implements TagsService {
 
+	/**
+	 * @uml.property  name="tagRepository"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private TagsRepository tagRepository;
 	
+	/**
+	 * @uml.property  name="em"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@PersistenceContext
 	private EntityManager em;
 

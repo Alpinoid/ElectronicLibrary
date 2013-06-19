@@ -29,9 +29,17 @@ import com.avramko.electroniclibrary.web.validator.UserValidator;
 @Controller
 public class SecurityController {
 	
+	/**
+	 * @uml.property  name="messageSource"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private MessageSource messageSource;
 	
+	/**
+	 * @uml.property  name="jdbcUserDetailsManager"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private JdbcUserDetailsManager jdbcUserDetailsManager;
 	

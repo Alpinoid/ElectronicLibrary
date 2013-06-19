@@ -39,12 +39,24 @@ public class TagsController {
 		return pageParams;
 	}
     
+	/**
+	 * @uml.property  name="messageSource"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	MessageSource messageSource;
 	
+	/**
+	 * @uml.property  name="tagService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private TagsService tagService;
 	
+	/**
+	 * @uml.property  name="bookService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private BooksService bookService;
 

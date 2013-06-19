@@ -39,12 +39,24 @@ public class AuthorsController {
 		return pageParams;
 	}
     
+	/**
+	 * @uml.property  name="messageSource"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	MessageSource messageSource;
 	
+	/**
+	 * @uml.property  name="authorService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private AuthorsService authorService;
 	
+	/**
+	 * @uml.property  name="bookService"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
     private BooksService bookService;
 

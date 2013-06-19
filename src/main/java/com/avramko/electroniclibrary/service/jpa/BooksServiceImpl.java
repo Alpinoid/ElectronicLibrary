@@ -27,9 +27,17 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BooksServiceImpl implements BooksService {
 
+	/**
+	 * @uml.property  name="bookRepository"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@Autowired
 	private BooksRepository bookRepository;
 	
+	/**
+	 * @uml.property  name="em"
+	 * @uml.associationEnd  readOnly="true"
+	 */
 	@PersistenceContext
 	private EntityManager em;
 	
