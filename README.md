@@ -1,4 +1,5 @@
-# Электронная библиотека (Electronic Library)
+# Библиотека электронных книг
+# (Library of electronic books)
 
 ## Описание:
 
@@ -24,20 +25,30 @@
 
 ## Используемые технологии:
 
-Фреймворк: Spring MVC
-фреймворк для сборки проекта: Maven
+#### Фреймворк:
+Spring MVC
+#### Фреймворк для сборки проекта:
+Maven
 
-Аутентификация и авторизация: Spring Security
+#### Аутентификация и авторизация:
+Spring Security
 
-База данных: MySQL 5.6
-ORM: Hibernate
-Реализация уровня доступа к данным: Spring Data JPA
+#### База данных:
+MySQL 5.6
+#### ORM:
+Hibernate
+#### Реализация уровня доступа к данным:
+Spring Data JPA (CRUD)
 
-Web-сервер: Apache Tomcat 7.0
-Шаблоны представлений: Apache Tiles
-Реализация представлений: JSPX
+#### Web-сервер:
+Apache Tomcat 7.0
+#### Шаблоны представлений:
+Apache Tiles
+#### Реализация представлений:
+JSPX
 
-IDE: Eclipse
+#### IDE:
+Eclipse
 
 ## Настройки серверов:
 
