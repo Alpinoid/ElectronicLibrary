@@ -1,5 +1,7 @@
 .project
 .classpath
 .springBeans
+.euml2
+.umlproject
 .settings/
 target/
