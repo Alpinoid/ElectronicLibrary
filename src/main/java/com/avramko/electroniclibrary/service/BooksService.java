@@ -27,6 +27,15 @@ public interface BooksService {
 	//Получить книги/книгу по подстроке из произвольного поля
 	public Page<Books> getBooksByCustomField (String customField, String searchSubstring, PageRequest pageRequest);
 	
+	//Получить книги/книгу по тэгу по подстроке наименования
+    public Page<Books> getBooksByName(Tags tagsofbooks, String nameSubstring, PageRequest pageRequest);
+    
+    //Получить книги/книгу по тэгу по подстроке описания
+    public Page<Books> getBooksByDescription(Tags tagsofbooks, String descriptionSubstring, PageRequest pageRequest);
+
+	//Получить книги/книгу по тэгу по подстроке из произвольного поля
+	public Page<Books> getBooksByCustomField (Tags tagsofbooks, String customField, String searchSubstring, PageRequest pageRequest);
+	
     //Получить книги/книгу по автору
 	public List<Books> getBooksByAuthor(Authors author);
 	

@@ -4,8 +4,6 @@ import com.avramko.electroniclibrary.domain.Tags;
 import com.avramko.electroniclibrary.domain.Books;
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
-
 public interface TagsService {
     
     //Получить список всех тэгов

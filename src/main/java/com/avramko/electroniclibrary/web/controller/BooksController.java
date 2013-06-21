@@ -65,7 +65,7 @@ public class BooksController {
 	public PageParams setPageParams(HttpServletRequest httpServletRequest, Locale locale) {
 		PageParams pageParams = new PageParams();
 		pageParams.setMenuText("action_all_book", messageSource, locale);
-		pageParams.setMenuUrl("/books", httpServletRequest);
+		pageParams.setMenuUrl("/books?all", httpServletRequest);
 		return pageParams;
 	}
 	
@@ -162,9 +162,15 @@ public class BooksController {
 			searchString = "%" + searchString + "%";
         }
 		
+		List<Tags> listAllTags = tagService.getAllTags();
+		
 		Page<Books> page = null;
 		String searchField = searchBook.getSearchField().toString();
-        page = bookService.getBooksByCustomField(searchField, searchString, pageRequest);
+		if (searchBook.getSearchTag() == null) {
+			page = bookService.getBooksByCustomField(searchField, searchString, pageRequest);
+		} else {
+			page = bookService.getBooksByCustomField(searchBook.getSearchTag(), searchField, searchString, pageRequest);
+		}
 
 	    int current = page.getNumber()+1;
 	    int begin = Math.max(1, current - 5);
@@ -181,9 +187,32 @@ public class BooksController {
     	uiModel.addAttribute("currentIndex", current);
     	uiModel.addAttribute("pages", page.getTotalPages());
     	uiModel.addAttribute("recordsOnPage", RecordsOnPage.show.values());
+    	uiModel.addAttribute("listAllTags", listAllTags);
     	
     	return "books/list";
     }
+	
+	@RequestMapping(params={"all"}, method=RequestMethod.GET)
+    public String list_tag(@ModelAttribute("searchBook") SearchBooks searchBook,
+    						BindingResult bindingResult, Model uiModel) {
+		System.out.println("ALL");
+		searchBook.setSearchString("");
+		searchBook.setSearchTag(null);
+		
+		return "redirect:/books";
+	}
+	
+	@RequestMapping(value = "/{id}", params={"tag"}, method=RequestMethod.GET)
+    public String list_tag(@ModelAttribute("searchBook") SearchBooks searchBook,
+    						@PathVariable("id") Integer paramTag,
+    						BindingResult bindingResult, Model uiModel) {
+
+		Tags tag = tagService.getTagById(paramTag);
+		searchBook.setSearchTag(tag);
+		searchBook.setSearchString("");
+		
+		return "redirect:/books";
+	}
 	
 	@RequestMapping(params={"sort"}, method=RequestMethod.GET)
     public String list_sort(@ModelAttribute("searchBook") SearchBooks searchBook,

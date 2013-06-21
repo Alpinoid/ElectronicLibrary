@@ -15,13 +15,16 @@ import java.util.List;
 import java.lang.String;
 
 public interface BooksRepository extends CrudRepository<Books, Integer>{
-	
-	List<Books> findByBooksPublisher(Publishers bookspublisher, Sort sort);
-	List<Books> findByAuthorsOfBooks(List<Authors> authorsofbooks, Sort sort);
-	List<Books> findByTagsOfBooks(List<Tags> tagsofbooks, Sort sort);
 
 	Page<Books> findAll(Pageable pageable);
 	Page<Books> findByBooksNameLike(String booksname, Pageable pageable);
 	Page<Books> findByBooksDescriptionLike(String booksdescription, Pageable pageable);
+	
+	Page<Books> findByTagsOfBooksAndBooksNameLike(Tags tagsofbooks, String booksname, Pageable pageable);
+	Page<Books> findByTagsOfBooksAndBooksDescriptionLike(Tags tagsofbooks, String booksdescription, Pageable pageable);
+	
+	List<Books> findByBooksPublisher(Publishers bookspublisher, Sort sort);
+	List<Books> findByAuthorsOfBooks(List<Authors> authorsofbooks, Sort sort);
+	List<Books> findByTagsOfBooks(List<Tags> tagsofbooks, Sort sort);
 
 }

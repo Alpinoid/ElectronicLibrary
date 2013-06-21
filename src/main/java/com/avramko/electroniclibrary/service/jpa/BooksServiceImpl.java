@@ -77,6 +77,30 @@ public class BooksServiceImpl implements BooksService {
 			return null;
 		}
 	}
+	
+	
+
+	@Override
+	public Page<Books> getBooksByName(Tags tagsofbooks, String nameSubstring, PageRequest pageRequest) {
+		return bookRepository.findByTagsOfBooksAndBooksNameLike(tagsofbooks, nameSubstring, pageRequest);
+	}
+
+	@Override
+	public Page<Books> getBooksByDescription(Tags tagsofbooks, String descriptionSubstring, PageRequest pageRequest) {
+		return bookRepository.findByTagsOfBooksAndBooksDescriptionLike(tagsofbooks, descriptionSubstring, pageRequest);
+	}
+
+	@Override
+	public Page<Books> getBooksByCustomField(Tags tagsofbooks, String customField, String searchSubstring, PageRequest pageRequest) {
+		switch (customField) {
+		case "NAME":
+			return getBooksByName(tagsofbooks, searchSubstring, pageRequest);
+		case "DESCRIPTION":
+			return getBooksByDescription(tagsofbooks, searchSubstring, pageRequest);
+		default:
+			return null;
+		}
+	}
 
 	@Override
 	@Transactional(readOnly=true)
