@@ -17,11 +17,7 @@ import com.avramko.electroniclibrary.web.form.PageParams;
 @RequestMapping("/")
 @Controller
 public class IndexController {
-	
-	/**
-	 * @uml.property  name="messageSource"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
 	MessageSource messageSource;
 	

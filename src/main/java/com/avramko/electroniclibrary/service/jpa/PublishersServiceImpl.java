@@ -1,7 +1,6 @@
 package com.avramko.electroniclibrary.service.jpa;
 
 import com.avramko.electroniclibrary.domain.Publishers;
-import com.avramko.electroniclibrary.domain.Books;
 import com.avramko.electroniclibrary.repository.PublishersRepository;
 import com.avramko.electroniclibrary.service.PublishersService;
 
@@ -20,17 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PublishersServiceImpl implements PublishersService {
 
-	/**
-	 * @uml.property  name="publisherRepository"
-	 * @uml.associationEnd  readOnly="true"
-	 */
 	@Autowired
 	private PublishersRepository publisherRepository;	
-	
-	/**
-	 * @uml.property  name="em"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -45,21 +36,8 @@ public class PublishersServiceImpl implements PublishersService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public Publishers getPublisherById(Integer publisher_id) {	
-		return publisherRepository.findOne(publisher_id);
-	}
-
-	@Override
-	@Transactional(readOnly=true)
-	public List<Publishers> getPublishersByName(String name_substring) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	@Transactional(readOnly=true)
-	public Publishers getPublishersByBook(Books book) {				
-		return null;
+	public Publishers getPublisherById(Integer publisherId) {	
+		return publisherRepository.findOne(publisherId);
 	}
 
 	@Override

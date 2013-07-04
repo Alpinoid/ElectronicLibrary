@@ -11,6 +11,6 @@ import java.util.Set;
 public interface AuthorsRepository extends CrudRepository<Authors, Integer>{
 	
 	@SuppressWarnings("rawtypes")
-	List<Authors> findByBooksOfAuthors(Set booksofauthors);
+	List<Authors> findByBooksOfAuthors(Set booksOfAuthors);
 	
 }

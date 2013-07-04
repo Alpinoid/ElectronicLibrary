@@ -13,6 +13,6 @@ public interface TagsRepository extends CrudRepository<Tags, Integer>{
 	List<Tags> findAll(Sort sort);
 	
 	@SuppressWarnings("rawtypes")
-	List<Tags> findByBooksOfTags(Set booksoftags);
+	List<Tags> findByBooksOfTags(Set booksOfTags);
 	
 }

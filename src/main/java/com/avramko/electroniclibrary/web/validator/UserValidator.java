@@ -19,10 +19,10 @@ public class UserValidator implements Validator{
 
 		LibraryUser user = (LibraryUser) target;
 		
-		if (user.getUsername() == "") {
+		if (user.getUsername().equals("")) {
 			errors.rejectValue("username", "validation_name_notEmpty");
 		}
-		if (user.getPassword() == "") {
+		if (user.getPassword().equals("")) {
 			errors.rejectValue("password", "validation_password_notEmpty");
 		}
 

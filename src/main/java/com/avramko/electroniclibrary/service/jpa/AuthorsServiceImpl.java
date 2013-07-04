@@ -21,17 +21,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AuthorsServiceImpl implements AuthorsService {
 
-	/**
-	 * @uml.property  name="authorRepository"
-	 * @uml.associationEnd  readOnly="true"
-	 */
 	@Autowired
 	private AuthorsRepository authorRepository;
-	
-	/**
-	 * @uml.property  name="em"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -43,15 +35,8 @@ public class AuthorsServiceImpl implements AuthorsService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public Authors getAuthorById(Integer author_id) {	
-		return authorRepository.findOne(author_id);
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public List<Authors> getAuthorsByName(String name_substring) {
-		// TODO Auto-generated method stub
-		return null;
+	public Authors getAuthorById(Integer authorId) {	
+		return authorRepository.findOne(authorId);
 	}
 
 	@Override

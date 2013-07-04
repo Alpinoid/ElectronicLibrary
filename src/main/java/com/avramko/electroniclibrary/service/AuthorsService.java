@@ -10,11 +10,8 @@ public interface AuthorsService {
     public List<Authors> getAllAuthors();
     
 	//Получить автора по ID
-	public Authors getAuthorById(Integer author_id);
-	
-    //Поиск автора/авторов по подстроке наименования
-    public List<Authors> getAuthorsByName(String name_substring);
-    
+	public Authors getAuthorById(Integer authorId);
+
     //Получить автора/авторов книги
 	public List<Authors> getAuthorsByBook(Books book);
     

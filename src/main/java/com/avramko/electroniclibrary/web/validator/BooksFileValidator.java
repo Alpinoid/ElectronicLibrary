@@ -11,8 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class BooksFileValidator implements Validator{
 	
-	static final int maxSize = 20971520; //20 Mb    
-	static final List<String> contentTypeResolver = Arrays.asList(
+	static final int MAX_SIZE = 20971520; //20 Mb    
+	static final List<String> CONTENT_TYPE_RESOLVER = Arrays.asList(
 			"text/plain",								//TXT
 			"application/rtf",							//RTF
 			"application/msword",						//DOC
@@ -31,12 +31,11 @@ public class BooksFileValidator implements Validator{
 
 		MultipartFile file = (MultipartFile) target;
 		
-		if (file.getSize()>maxSize) {
+		if (file.getSize()>MAX_SIZE) {
 			errors.rejectValue("booksFile", "validation_file_big_size");
 		}
-		if (!contentTypeResolver.contains(file.getContentType())) {
+		if (!CONTENT_TYPE_RESOLVER.contains(file.getContentType())) {
 			errors.rejectValue("booksFile", "validation_file_bad_type");
-
 		}
 
 	}

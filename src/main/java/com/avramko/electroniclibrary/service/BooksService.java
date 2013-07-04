@@ -13,7 +13,7 @@ import org.springframework.data.domain.PageRequest;
 public interface BooksService {
     
 	//Получить книгу по ID
-	public Books getBookById(Integer book_id);
+	public Books getBookById(Integer bookId);
 	
     //Получить список всех книг
     public Page<Books> getAllBooks(PageRequest pageRequest);
@@ -28,13 +28,13 @@ public interface BooksService {
 	public Page<Books> getBooksByCustomField (String customField, String searchSubstring, PageRequest pageRequest);
 	
 	//Получить книги/книгу по тэгу по подстроке наименования
-    public Page<Books> getBooksByName(Tags tagsofbooks, String nameSubstring, PageRequest pageRequest);
+    public Page<Books> getBooksByName(Tags tagsOfBooks, String nameSubstring, PageRequest pageRequest);
     
     //Получить книги/книгу по тэгу по подстроке описания
-    public Page<Books> getBooksByDescription(Tags tagsofbooks, String descriptionSubstring, PageRequest pageRequest);
+    public Page<Books> getBooksByDescription(Tags tagsOfBooks, String descriptionSubstring, PageRequest pageRequest);
 
 	//Получить книги/книгу по тэгу по подстроке из произвольного поля
-	public Page<Books> getBooksByCustomField (Tags tagsofbooks, String customField, String searchSubstring, PageRequest pageRequest);
+	public Page<Books> getBooksByCustomField (Tags tagsOfBooks, String customField, String searchSubstring, PageRequest pageRequest);
 	
     //Получить книги/книгу по автору
 	public List<Books> getBooksByAuthor(Authors author);

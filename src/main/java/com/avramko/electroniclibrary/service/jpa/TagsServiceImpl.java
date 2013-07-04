@@ -23,17 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TagsServiceImpl implements TagsService {
 
-	/**
-	 * @uml.property  name="tagRepository"
-	 * @uml.associationEnd  readOnly="true"
-	 */
 	@Autowired
 	private TagsRepository tagRepository;
-	
-	/**
-	 * @uml.property  name="em"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@PersistenceContext
 	private EntityManager em;
 
@@ -46,15 +38,8 @@ public class TagsServiceImpl implements TagsService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public Tags getTagById(Integer tag_id) {	
-		return tagRepository.findOne(tag_id);
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public List<Tags> getTagsByName(String name_substring) {
-		// TODO Auto-generated method stub
-		return null;
+	public Tags getTagById(Integer tagId) {	
+		return tagRepository.findOne(tagId);
 	}
 
 	@Override

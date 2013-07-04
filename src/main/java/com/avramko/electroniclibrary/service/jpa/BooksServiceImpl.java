@@ -27,24 +27,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BooksServiceImpl implements BooksService {
 
-	/**
-	 * @uml.property  name="bookRepository"
-	 * @uml.associationEnd  readOnly="true"
-	 */
 	@Autowired
 	private BooksRepository bookRepository;
-	
-	/**
-	 * @uml.property  name="em"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@PersistenceContext
 	private EntityManager em;
 	
 	@Override
 	@Transactional(readOnly=true)
-	public Books getBookById(Integer book_id) {
-		return bookRepository.findOne(book_id);
+	public Books getBookById(Integer bookId) {
+		return bookRepository.findOne(bookId);
 	}
 	
 	@Override
@@ -77,26 +69,24 @@ public class BooksServiceImpl implements BooksService {
 			return null;
 		}
 	}
-	
-	
 
 	@Override
-	public Page<Books> getBooksByName(Tags tagsofbooks, String nameSubstring, PageRequest pageRequest) {
-		return bookRepository.findByTagsOfBooksAndBooksNameLike(tagsofbooks, nameSubstring, pageRequest);
+	public Page<Books> getBooksByName(Tags tagsOfBooks, String nameSubstring, PageRequest pageRequest) {
+		return bookRepository.findByTagsOfBooksAndBooksNameLike(tagsOfBooks, nameSubstring, pageRequest);
 	}
 
 	@Override
-	public Page<Books> getBooksByDescription(Tags tagsofbooks, String descriptionSubstring, PageRequest pageRequest) {
-		return bookRepository.findByTagsOfBooksAndBooksDescriptionLike(tagsofbooks, descriptionSubstring, pageRequest);
+	public Page<Books> getBooksByDescription(Tags tagsOfBooks, String descriptionSubstring, PageRequest pageRequest) {
+		return bookRepository.findByTagsOfBooksAndBooksDescriptionLike(tagsOfBooks, descriptionSubstring, pageRequest);
 	}
 
 	@Override
-	public Page<Books> getBooksByCustomField(Tags tagsofbooks, String customField, String searchSubstring, PageRequest pageRequest) {
+	public Page<Books> getBooksByCustomField(Tags tagsOfBooks, String customField, String searchSubstring, PageRequest pageRequest) {
 		switch (customField) {
 		case "NAME":
-			return getBooksByName(tagsofbooks, searchSubstring, pageRequest);
+			return getBooksByName(tagsOfBooks, searchSubstring, pageRequest);
 		case "DESCRIPTION":
-			return getBooksByDescription(tagsofbooks, searchSubstring, pageRequest);
+			return getBooksByDescription(tagsOfBooks, searchSubstring, pageRequest);
 		default:
 			return null;
 		}
@@ -106,18 +96,18 @@ public class BooksServiceImpl implements BooksService {
 	@Transactional(readOnly=true)
 	public List<Books> getBooksByTag(Tags tag) {
 		Sort sort = new Sort(Direction.ASC, "booksName");
-		List<Tags> tagsofbooks = new ArrayList<Tags>();
-		tagsofbooks.add(tag);
-		return bookRepository.findByTagsOfBooks(tagsofbooks, sort);
+		List<Tags> tagsOfBooks = new ArrayList<Tags>();
+		tagsOfBooks.add(tag);
+		return bookRepository.findByTagsOfBooks(tagsOfBooks, sort);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public List<Books> getBooksByAuthor(Authors author) {
 		Sort sort = new Sort(Direction.ASC, "booksName");
-		List<Authors> authorsofbooks = new ArrayList<Authors>();
-		authorsofbooks.add(author);
-		return bookRepository.findByAuthorsOfBooks(authorsofbooks, sort);
+		List<Authors> authorsOfBooks = new ArrayList<Authors>();
+		authorsOfBooks.add(author);
+		return bookRepository.findByAuthorsOfBooks(authorsOfBooks, sort);
 	}
 
 	@Override

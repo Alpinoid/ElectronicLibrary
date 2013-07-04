@@ -25,25 +25,16 @@ import org.hibernate.validator.constraints.NotEmpty;
 )
 public class Publishers {
 
-    /**
-	 * @uml.property  name="idPublishers"
-	 */
     @Id
     @GeneratedValue(strategy=IDENTITY)
     @Column(name="PublisherID", unique=true, nullable=false)
     private Integer idPublishers;
-    
-    /**
-	 * @uml.property  name="publishersName"
-	 */
+
     @NotEmpty(message="{validation_name_notEmpty}")
 	@Length(min=3, max=64, message="{validation_name_size}")
     @Column(name="PublisherName", unique=true, nullable=false, length=64)
     private String publishersName;
-    
-    /**
-	 * @uml.property  name="books"
-	 */
+
     @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY, mappedBy="booksPublisher")
     private Set<Books> books = new HashSet<Books>(0);
 
@@ -57,35 +48,19 @@ public class Publishers {
        this.publishersName = publishersName;
        this.books = books;
     }
-   
-    /**
-	 * @return
-	 * @uml.property  name="idPublishers"
-	 */
+
     public Integer getIdPublishers() {
         return this.idPublishers;
     }
-    
-    /**
-	 * @param idPublishers
-	 * @uml.property  name="idPublishers"
-	 */
+
     public void setIdPublishers(Integer idPublishers) {
         this.idPublishers = idPublishers;
     }
-    
-    /**
-	 * @return
-	 * @uml.property  name="publishersName"
-	 */
+
     public String getPublishersName() {
         return this.publishersName;
     }
-    
-    /**
-	 * @param publishersName
-	 * @uml.property  name="publishersName"
-	 */
+
     public void setPublishersName(String publishersName) {
         this.publishersName = publishersName;
     }
@@ -97,5 +72,11 @@ public class Publishers {
     public void setBooks(Set<Books> books) {
         this.books = books;
     }
-
+    
+	@Override
+	public String toString() {
+		String result = "Publisher - ID: " + this.getIdPublishers() + "; Name: " + this.getPublishersName();
+		return result;
+	}
+	
 }

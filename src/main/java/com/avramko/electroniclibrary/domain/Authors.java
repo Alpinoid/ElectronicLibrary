@@ -22,25 +22,16 @@ import org.hibernate.validator.constraints.Length;
 )
 public class Authors {
 
-	/**
-	 * @uml.property  name="idAuthors"
-	 */
 	@Id
     @GeneratedValue(strategy=IDENTITY)
     @Column(name="AuthorID", unique=true, nullable=false)
     private Integer idAuthors;
 
-	/**
-	 * @uml.property  name="authorsName"
-	 */
 	@NotEmpty(message="{validation_name_notEmpty}")
 	@Length(min=3, max=64, message="{validation_name_size}")
 	@Column(name="AuthorName", nullable=false, length=64)
     private String authorsName;
     
-	/**
-	 * @uml.property  name="booksOfAuthors"
-	 */
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "authorsOfBooks")
     private Set<Books> booksOfAuthors = new HashSet<Books>(0);
 
@@ -61,34 +52,18 @@ public class Authors {
        this.booksOfAuthors = booksOfAuthors;
     }
    
-    /**
-	 * @return
-	 * @uml.property  name="idAuthors"
-	 */
     public Integer getIdAuthors() {
         return this.idAuthors;
     }
     
-    /**
-	 * @param idAuthors
-	 * @uml.property  name="idAuthors"
-	 */
     public void setIdAuthors(Integer idAuthors) {
         this.idAuthors = idAuthors;
     }
     
-    /**
-	 * @return
-	 * @uml.property  name="authorsName"
-	 */
     public String getAuthorsName() {
         return this.authorsName;
     }
     
-    /**
-	 * @param authorsName
-	 * @uml.property  name="authorsName"
-	 */
     public void setAuthorsName(String authorsName) {
         this.authorsName = authorsName;
     }
@@ -100,5 +75,11 @@ public class Authors {
     public void setBooksOfAuthors(Set<Books> booksOfAuthors) {
         this.booksOfAuthors = booksOfAuthors;
     }
+    
+	@Override
+	public String toString() {
+		String result = "Author - ID: " + this.getIdAuthors() + "; Name: " + this.getAuthorsName();
+		return result;
+	}
 
 }

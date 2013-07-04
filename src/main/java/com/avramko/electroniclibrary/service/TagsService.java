@@ -10,10 +10,7 @@ public interface TagsService {
     public List<Tags> getAllTags();
     
 	//Получить тэг по ID
-	public Tags getTagById(Integer tag_id);
-	
-    //Поиск тэга/тэгов по подстроке наименования
-    public List<Tags> getTagsByName(String name_substring);
+	public Tags getTagById(Integer tagId);
     
     //Получить тэг/тэги книги
 	public List<Tags> getTagsByBook(Books book);

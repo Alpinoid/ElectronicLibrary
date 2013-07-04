@@ -24,17 +24,9 @@ import com.avramko.electroniclibrary.service.CommentsService;
 @Transactional
 public class CommentsServiceImpl implements CommentsService {
 
-	/**
-	 * @uml.property  name="commentRepository"
-	 * @uml.associationEnd  readOnly="true"
-	 */
 	@Autowired
 	private CommentsRepository commentRepository;
-	
-	/**
-	 * @uml.property  name="em"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@PersistenceContext
 	private EntityManager em;
 	

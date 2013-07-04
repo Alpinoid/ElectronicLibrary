@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 @Component
 public class BooksImageValidator implements Validator{
 	
-	static final int maxH = 800;    
-	static final int maxW = 600;
+	static final int MAX_H = 800;    
+	static final int MAX_W = 600;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -33,7 +33,7 @@ public class BooksImageValidator implements Validator{
 			try {
 				InputStream inputStream = file.getInputStream();
 				BufferedImage bufImage = ImageIO.read(inputStream);
-				if(bufImage.getHeight()>maxH || bufImage.getWidth()>maxW) {
+				if(bufImage.getHeight()>MAX_H || bufImage.getWidth()>MAX_W) {
 					errors.rejectValue("booksImage", "validation_image_bad_size");
 				}			
 			} catch (IOException ex) {

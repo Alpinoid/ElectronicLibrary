@@ -13,6 +13,8 @@ import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.context.MessageSource;
@@ -61,6 +63,8 @@ import com.avramko.electroniclibrary.web.validator.BooksImageValidator;
 @SessionAttributes({"searchBook","pageRequest"})
 public class BooksController {
 	
+	static final Logger logger = LoggerFactory.getLogger(BooksController.class);
+	
 	@ModelAttribute("pageParams")
 	public PageParams setPageParams(HttpServletRequest httpServletRequest, Locale locale) {
 		PageParams pageParams = new PageParams();
@@ -78,46 +82,22 @@ public class BooksController {
 	public PageRequest getPageRequest() {  
         return new PageRequest(0, RecordsOnPage.show.BY_10.getNumberOfRecords(), Direction.ASC, "booksName");
 	}
-	
-	/**
-	 * @uml.property  name="messageSource"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
 	MessageSource messageSource;
-	
-	/**
-	 * @uml.property  name="bookService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private BooksService bookService;
-	
-	/**
-	 * @uml.property  name="authorService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private AuthorsService authorService;
-	
-	/**
-	 * @uml.property  name="publisherService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private PublishersService publisherService;
-	
-	/**
-	 * @uml.property  name="tagService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private TagsService tagService;
-	
-	/**
-	 * @uml.property  name="commentService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private CommentsService commentService;
 	
@@ -156,7 +136,7 @@ public class BooksController {
     				   BindingResult bindingResult, Model uiModel, Locale locale) {
 		
 		String searchString = searchBook.getSearchString();
-		if (searchString == "") {
+		if (searchString.equals("")) {
 			searchString = "%";
 		} else {
 			searchString = "%" + searchString + "%";
@@ -193,7 +173,7 @@ public class BooksController {
     }
 	
 	@RequestMapping(params={"all"}, method=RequestMethod.GET)
-    public String list_tag(@ModelAttribute("searchBook") SearchBooks searchBook,
+    public String listByTag(@ModelAttribute("searchBook") SearchBooks searchBook,
     						BindingResult bindingResult, Model uiModel) {
 		System.out.println("ALL");
 		searchBook.setSearchString("");
@@ -203,7 +183,7 @@ public class BooksController {
 	}
 	
 	@RequestMapping(value = "/{id}", params={"tag"}, method=RequestMethod.GET)
-    public String list_tag(@ModelAttribute("searchBook") SearchBooks searchBook,
+    public String listByTag(@ModelAttribute("searchBook") SearchBooks searchBook,
     						@PathVariable("id") Integer paramTag,
     						BindingResult bindingResult, Model uiModel) {
 
@@ -215,7 +195,7 @@ public class BooksController {
 	}
 	
 	@RequestMapping(params={"sort"}, method=RequestMethod.GET)
-    public String list_sort(@ModelAttribute("searchBook") SearchBooks searchBook,
+    public String listChageSort(@ModelAttribute("searchBook") SearchBooks searchBook,
     						@ModelAttribute("pageRequest") PageRequest pageRequest,
     						@RequestParam(value="sort", required=false) String paramSort,
     						BindingResult bindingResult, Model uiModel) {
@@ -234,7 +214,7 @@ public class BooksController {
 	}
 	
 	@RequestMapping(params = "page", method=RequestMethod.GET)
-    public String list_page(@ModelAttribute("pageRequest") PageRequest pageRequest,
+    public String listChangePage(@ModelAttribute("pageRequest") PageRequest pageRequest,
     				   		@RequestParam(value="page", required=false) int paramPage,
     				   		BindingResult bindingResult, Model uiModel) {
 		
@@ -249,7 +229,7 @@ public class BooksController {
 	}
 	
 	@RequestMapping(params = "size", method=RequestMethod.GET)
-    public String list_size(@ModelAttribute("pageRequest") PageRequest pageRequest,
+    public String listChangePageSize(@ModelAttribute("pageRequest") PageRequest pageRequest,
     				   		@RequestParam(value="size", required=false) int paramSize,
     				   		BindingResult bindingResult, Model uiModel) {
 		
@@ -281,6 +261,7 @@ public class BooksController {
         uiModel.asMap().clear();
         
         commentService.save(newComment);
+        logger.info("Added new comment: {}", newComment);
         return "redirect:/books/" + UrlUtil.encodeUrlPathSegment(newComment.getCommentBook().getIdBooks().toString(), httpServletRequest);
     }	
     
@@ -320,8 +301,8 @@ public class BooksController {
         		InputStream inputStream = fileImage.getInputStream();
         		fileContent = IOUtils.toByteArray(inputStream);
         	} catch (IOException ex) {
-        		ex.printStackTrace();
-        	}
+        		logger.error("Error uploading image", ex);
+           	}
         	book.setBooksImage(fileContent);
         } else {
         	book.setBooksImage(bookService.getBookById(book.getIdBooks()).getBooksImage());
@@ -353,6 +334,7 @@ public class BooksController {
         redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("message_save_success", new Object[]{}, locale)));        
         
         bookService.save(book);
+        logger.info("Altered book: {}", book);
         return "redirect:/books/" + UrlUtil.encodeUrlPathSegment(book.getIdBooks().toString(), httpServletRequest);
     }	
     
@@ -387,7 +369,7 @@ public class BooksController {
         		InputStream inputStream = fileImage.getInputStream();
         		fileContent = IOUtils.toByteArray(inputStream);
         	} catch (IOException ex) {
-        		ex.printStackTrace();
+        		logger.error("Error uploading image", ex);
         	}
         	book.setBooksImage(fileContent);
         }
@@ -417,6 +399,7 @@ public class BooksController {
         redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("message_save_success", new Object[]{}, locale)));
 
         bookService.save(book);
+        logger.info("Added new book: {}", book);
         return "redirect:/books/" + UrlUtil.encodeUrlPathSegment(book.getIdBooks().toString(), httpServletRequest);
     }	
 
@@ -454,7 +437,7 @@ public class BooksController {
 	        IOUtils.write(fileOfBook.getFile(), out);
 	        out.close();
         } catch (IOException ex) {
-        	ex.printStackTrace();
+        	logger.error("Error uploading books file", ex);
         }
         return null;
 	}
@@ -463,6 +446,7 @@ public class BooksController {
 	@RequestMapping(value = "/{id}", params = "delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Integer id) {
 		bookService.delete(bookService.getBookById(id));
+		logger.info("Deleted book with ID: {}", id);
         return "redirect:/books";
 	}
 }

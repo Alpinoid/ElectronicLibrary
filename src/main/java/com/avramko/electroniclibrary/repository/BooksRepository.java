@@ -17,14 +17,14 @@ import java.lang.String;
 public interface BooksRepository extends CrudRepository<Books, Integer>{
 
 	Page<Books> findAll(Pageable pageable);
-	Page<Books> findByBooksNameLike(String booksname, Pageable pageable);
-	Page<Books> findByBooksDescriptionLike(String booksdescription, Pageable pageable);
+	Page<Books> findByBooksNameLike(String booksName, Pageable pageable);
+	Page<Books> findByBooksDescriptionLike(String booksDescription, Pageable pageable);
 	
-	Page<Books> findByTagsOfBooksAndBooksNameLike(Tags tagsofbooks, String booksname, Pageable pageable);
-	Page<Books> findByTagsOfBooksAndBooksDescriptionLike(Tags tagsofbooks, String booksdescription, Pageable pageable);
+	Page<Books> findByTagsOfBooksAndBooksNameLike(Tags tagsOfBooks, String booksName, Pageable pageable);
+	Page<Books> findByTagsOfBooksAndBooksDescriptionLike(Tags tagsOfBooks, String booksDescription, Pageable pageable);
 	
-	List<Books> findByBooksPublisher(Publishers bookspublisher, Sort sort);
-	List<Books> findByAuthorsOfBooks(List<Authors> authorsofbooks, Sort sort);
-	List<Books> findByTagsOfBooks(List<Tags> tagsofbooks, Sort sort);
+	List<Books> findByBooksPublisher(Publishers booksPublisher, Sort sort);
+	List<Books> findByAuthorsOfBooks(List<Authors> authorsOfBooks, Sort sort);
+	List<Books> findByTagsOfBooks(List<Tags> tagsOfBooks, Sort sort);
 
 }

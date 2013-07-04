@@ -6,6 +6,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,32 +31,29 @@ import com.avramko.electroniclibrary.web.validator.UserValidator;
 @Controller
 public class SecurityController {
 	
-	/**
-	 * @uml.property  name="messageSource"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+	static final Logger logger = LoggerFactory.getLogger(SecurityController.class);
+
 	@Autowired
 	private MessageSource messageSource;
-	
-	/**
-	 * @uml.property  name="jdbcUserDetailsManager"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private JdbcUserDetailsManager jdbcUserDetailsManager;
 	
 	private void doAutoLogin(String username, String password, HttpServletRequest httpServletRequest) {
 	    try {
-	    	UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken( username, password);
+	    	UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
 	        SecurityContextHolder.getContext().setAuthentication(token);
+	        logger.info("Autologin success fo user: {}", username);
 	    } catch (Exception e) {
 	        SecurityContextHolder.getContext().setAuthentication(null);
+	        logger.info("Autologin fail fo user: {}", username);
 	    }
 	}
 		
 	@RequestMapping("/loginfail")
 	public String loginFail(Model uiModel, Locale locale) {
-		uiModel.addAttribute("message", new Message("error", messageSource.getMessage("message_login_fail", new Object[]{}, locale))); 
+		uiModel.addAttribute("message", new Message("error", messageSource.getMessage("message_login_fail", new Object[]{}, locale)));
+		logger.info("Login user fail!");
 		return "/";
 	}
 	
@@ -73,13 +72,13 @@ public class SecurityController {
             return "security/registration";
         }
 
-        
         List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
     	authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
         User newUser = new User(user.getUsername(), user.getPassword(), authorityList);
         uiModel.asMap().clear();
         
         jdbcUserDetailsManager.createUser(newUser);
+        logger.info("Registred new user: {}", newUser);
         doAutoLogin(newUser.getUsername(), newUser.getPassword(), httpServletRequest);
 		
 		return "redirect:/";

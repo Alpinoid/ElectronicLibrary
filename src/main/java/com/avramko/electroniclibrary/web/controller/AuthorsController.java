@@ -6,6 +6,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,6 +33,8 @@ import com.avramko.electroniclibrary.web.util.UrlUtil;
 @Controller
 public class AuthorsController {
 	
+	static final Logger logger = LoggerFactory.getLogger(AuthorsController.class);
+	
 	@ModelAttribute("pageParams")
 	public PageParams setPageParams(HttpServletRequest httpServletRequest, Locale locale) {
 		PageParams pageParams = new PageParams();
@@ -38,25 +42,13 @@ public class AuthorsController {
 		pageParams.setMenuUrl("/authors", httpServletRequest);
 		return pageParams;
 	}
-    
-	/**
-	 * @uml.property  name="messageSource"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
 	MessageSource messageSource;
-	
-	/**
-	 * @uml.property  name="authorService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private AuthorsService authorService;
-	
-	/**
-	 * @uml.property  name="bookService"
-	 * @uml.associationEnd  readOnly="true"
-	 */
+
 	@Autowired
     private BooksService bookService;
 
@@ -99,6 +91,7 @@ public class AuthorsController {
         redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("message_save_success", new Object[]{}, locale)));   
         
         authorService.save(author);
+        logger.info("Altered author: {}", author);
         return "redirect:/authors/" + UrlUtil.encodeUrlPathSegment(author.getIdAuthors().toString(), httpServletRequest);
     }	
 
@@ -128,6 +121,7 @@ public class AuthorsController {
         redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("message_save_success", new Object[]{}, locale)));     
         
         authorService.save(author);
+        logger.info("Added new author: {}", author);
         return "redirect:/authors/" + UrlUtil.encodeUrlPathSegment(author.getIdAuthors().toString(), httpServletRequest);
     }	
 
@@ -146,6 +140,7 @@ public class AuthorsController {
 	@RequestMapping(value = "/{id}", params = "delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Integer id) {
         authorService.delete(authorService.getAuthorById(id));
+        logger.info("Deleted author with ID: {}", id);
         return "redirect:/authors";
 	}
     
